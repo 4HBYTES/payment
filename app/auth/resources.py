@@ -1,7 +1,7 @@
 from flask import Blueprint, g
 
-from flask_restful import Api, Resource 
-from flask.ext.restful import abort, fields, marshal_with, reqparse
+from flask_restful import Api, Resource
+from flask_restful import abort, fields, marshal_with, reqparse
 
 from app import db
 from app.auth.models import Permission, User

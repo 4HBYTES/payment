@@ -1,9 +1,9 @@
 import flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from flask.ext.restful import abort
-from flask.ext.migrate import Migrate
-from flask.ext.cors import CORS
+from flask_restful import abort
+from flask_migrate import Migrate
+from flask_cors import CORS
 
 app = flask.Flask(__name__)
 app.config.from_object('config')

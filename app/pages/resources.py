@@ -2,8 +2,8 @@ from app import db
 
 from flask import Blueprint, g
 
-from flask_restful import Api, Resource 
-from flask.ext.restful import abort, fields, marshal_with, reqparse
+from flask_restful import Api, Resource
+from flask_restful import abort, fields, marshal_with, reqparse
 
 from app.base.decorators import login_required, has_permissions
 from app.pages.models import Page

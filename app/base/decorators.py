@@ -1,7 +1,7 @@
 from functools import wraps
 
-from flask import g, request 
-from flask.ext.restful import abort
+from flask import g, request
+from flask_restful import abort
 
 from app.auth.models import User
 
