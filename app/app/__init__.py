@@ -30,3 +30,7 @@ app.register_blueprint(
     page_bp,
     url_prefix='/page'
 )
+
+if app.config['DEBUG']:
+    import newrelic.agent
+    newrelic.agent.initialize('./newrelic.ini')
