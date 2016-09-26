@@ -1,0 +1,9 @@
+{
+    "build": {
+        "folder": "app"
+    },
+    "deploy": {
+        "module": "app:app",
+        "static": ""
+    }
+}
