@@ -5,7 +5,6 @@ from flask import Blueprint, g
 from flask_restful import Api, Resource
 from flask_restful import abort, fields, marshal_with, reqparse
 
-from app.base.decorators import login_required, has_permissions
 from app.pages.models import Page
 
 page_bp = Blueprint('page_api', __name__)
@@ -41,7 +40,6 @@ class PageDetail(Resource):
             abort(404, message="Page {} doesn't exist".format(slug))
         return page 
 
-    @login_required
     def delete(self, slug):
         page = Page.query.filter_by(slug=slug).first()
         if not page:
@@ -51,7 +49,6 @@ class PageDetail(Resource):
         return {}, 204
 
     @marshal_with(page_fields)
-    @login_required
     def put(self, slug):
         parsed_args = parser.parse_args()
         page = Page.query.filter_by(slug=slug).first()
@@ -72,7 +69,6 @@ class PageList(Resource):
         return pages
 
     @marshal_with(page_fields)
-    @login_required
     def post(self):
         parsed_args = parser.parse_args()
         title = parsed_args['title']

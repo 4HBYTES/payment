@@ -19,17 +19,11 @@ def not_found(error):
 
 
 from app.blog.resources import blog_bp
-from app.auth.resources import auth_bp
 from app.pages.resources import page_bp
 
 app.register_blueprint(
     blog_bp,
     url_prefix='/blog'
-)
-
-app.register_blueprint(
-    auth_bp,
-    url_prefix='/auth'
 )
 
 app.register_blueprint(

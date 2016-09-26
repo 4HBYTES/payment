@@ -5,7 +5,6 @@ from flask import Blueprint, g
 from flask_restful import Api, Resource
 from flask_restful import abort, fields, marshal_with, reqparse
 
-from app.base.decorators import login_required, has_permissions
 from app.blog.models import BlogPost as Post
 
 blog_bp = Blueprint('blog_api', __name__)
@@ -43,7 +42,6 @@ class BlogPostDetail(Resource):
             abort(404, message="Post {} doesn't exist".format(slug))
         return post
 
-    @login_required
     def delete(self, slug):
         post = Post.query.filter_by(slug=slug).first()
         if not post:
@@ -53,7 +51,6 @@ class BlogPostDetail(Resource):
         return {}, 204
 
     @marshal_with(post_fields)
-    @login_required
     def put(self, slug):
         parsed_args = parser.parse_args()
         post = Post.query.filter_by(slug=slug).first()
@@ -74,7 +71,6 @@ class BlogPostList(Resource):
         return post
 
     @marshal_with(post_fields)
-    @login_required
     def post(self):
         parsed_args = parser.parse_args()
         title = parsed_args['title']
