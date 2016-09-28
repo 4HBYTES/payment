@@ -1,11 +1,11 @@
-from app import db
-
-from flask import Blueprint, g
+from flask import Blueprint, request
 
 from flask_restful import Api, Resource
-from flask_restful import abort, fields, marshal_with, reqparse
+from flask_restful import abort, fields, marshal_with, marshal, reqparse
 
+from app import db
 from app.pages.models import Page
+from app.pages.forms import CreateOrUpdatePageForm
 
 page_bp = Blueprint('page_api', __name__)
 api = Api(page_bp)
@@ -25,44 +25,54 @@ list_fields = {
     'slug': fields.String,
 }
 
-
-parser = reqparse.RequestParser()
-parser.add_argument('title', type=str)
-parser.add_argument('content', type=str)
-
-
 class PageDetail(Resource):
 
     @marshal_with(page_fields)
     def get(self, slug):
         page = Page.query.filter_by(slug=slug).first()
+
         if not page:
-            abort(404, message="Page {} doesn't exist".format(slug))
-        return page 
+            abort(404, error="Page {} doesn't exist".format(slug))
+
+        return page
 
     def delete(self, slug):
         page = Page.query.filter_by(slug=slug).first()
+
         if not page:
-            abort(404, message="Page {} doesn't exist".format(slug))
+            abort(404, error="Page {} doesn't exist".format(slug))
+
+        #TODO wrap this into a service
         db.session.delete(page)
         db.session.commit()
+        #TODO wrap this into a service
+
         return {}, 204
 
     @marshal_with(page_fields)
     def put(self, slug):
-        parsed_args = parser.parse_args()
         page = Page.query.filter_by(slug=slug).first()
+
         if not page:
-            abort(404, message="Page {} doesn't exist".format(slug))
-        page.title = parsed_args['title']
-        page.content = parsed_args['content']
+            abort(404, error="Page {} doesn't exist".format(slug))
+
+        form = CreateOrUpdatePageForm(data=request.get_json(force=True))
+
+        if not form.validate():
+            abort(400, errors=form.errors)
+
+        #TODO wrap this into a service
+        form.populate_obj(page)
         db.session.add(page)
         db.session.commit()
+        #TODO wrap this into a service
+
         return page, 200
 
 
 class PageList(Resource):
 
+    # TODO: Use pagination
     @marshal_with(list_fields)
     def get(self):
         pages = Page.query.all()
@@ -70,16 +80,23 @@ class PageList(Resource):
 
     @marshal_with(page_fields)
     def post(self):
-        parsed_args = parser.parse_args()
-        title = parsed_args['title']
-        content = parsed_args['content']
-        if title == '' or content == '':
-            abort(400, message="title, content cannot be empty");
-        page = Page(title=parsed_args['title'], content=parsed_args['content'])
+        form = CreateOrUpdatePageForm(data=request.get_json(force=True))
+
+        if not form.validate():
+            abort(400, errors=form.errors)
+
+        #TODO wrap this into a service
+        page = Page(title=form.title.data, content=form.content.data)
+        existing_page = Page.query.filter_by(title=page.title).first()
+
+        if existing_page:
+            abort(409, error="Page {} already exist".format(page.title))
+
         db.session.add(page)
         db.session.commit()
-        return page, 201
+        #TODO wrap this into a service
 
+        return page, 201
 
 api.add_resource(PageDetail, '/<string:slug>')
 api.add_resource(PageList, '/')

@@ -10,8 +10,8 @@ class Page(Base):
     slug = db.Column(db.String(255), nullable=False, unique=True)
 
     def __init__(self, title, content, **kwargs):
-        self.title = title 
-        self.content = content 
+        self.title = title
+        self.content = content
         self.set_slug(self.title)
 
     def __repr__(self):

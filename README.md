@@ -20,3 +20,11 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
  * `DEBUG: boolean` True will enable debug mode
  * `SQLALCHEMY_DATABASE_URI: String` Database URI
  * `SECRET_KEY: String` Secret key
+
+## Curl examples
+
+ * curl http://localhost:5000/page/ --data '{"title":"a", "content":"content is a"}'
+ * curl http://localhost:5000/page/
+ * curl http://localhost:5000/page/a
+ * curl http://localhost:5000/page/a --data '{"title":"a", "content":"content is still about a"}' -X PUT
+ * curl http://localhost:5000/page/a -X DELETE
