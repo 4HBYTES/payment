@@ -1,5 +1,6 @@
 import re
 from unicodedata import normalize
+from datetime import datetime
 
 from app import db
 
@@ -8,20 +9,15 @@ class Base(db.Model):
     __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True)
-    created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    created = db.Column(db.DateTime, default=datetime.now())
     modified = db.Column(
         db.DateTime,
-        default=db.func.current_timestamp(),
-        onupdate=db.func.current_timestamp()
+        default=datetime.now(),
+        onupdate=datetime.now()
     )
 
     def set_slug(self, text):
         slug = self.slugify(text)
-        i = 0
-        # hopefully ensure slug is unique
-        while self.query.filter_by(slug=slug).count() > 0:
-            slug = self.slugify("%s %d" % (text, i))
-            i += 1
         self.slug = slug
 
     @staticmethod

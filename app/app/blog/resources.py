@@ -3,9 +3,9 @@ from flask import Blueprint, request
 from flask_restful import Api, Resource
 from flask_restful import abort, fields, marshal_with, reqparse
 
-from app import db
 from app.blog.models import BlogPost as Post
 from app.blog.forms import CreateOrUpdateBlogForm
+from app.blog.services import BlogService
 
 blog_bp = Blueprint('blog_api', __name__)
 api = Api(blog_bp)
@@ -27,10 +27,11 @@ list_fields = {
 }
 
 class BlogPostDetail(Resource):
+    service = BlogService()
 
     @marshal_with(post_fields)
     def get(self, slug):
-        post = Post.query.filter_by(slug=slug).first()
+        post = self.service.get_by_slug(slug)
 
         if not post:
             abort(404, error="Post {} doesn't exist".format(slug))
@@ -38,42 +39,39 @@ class BlogPostDetail(Resource):
         return post
 
     def delete(self, slug):
-        post = Post.query.filter_by(slug=slug).first()
+        post = self.service.get_by_slug(slug)
 
         if not post:
             abort(404, error="Post {} doesn't exist".format(slug))
 
-        #TODO wrap this into a service
-        db.session.delete(post)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.delete(post)
 
         return {}, 204
 
     @marshal_with(post_fields)
     def put(self, slug):
-        post = Post.query.filter_by(slug=slug).first()
+        post = self.service.get_by_slug(slug)
 
         if not post:
             abort(404, error="Post {} doesn't exist".format(slug))
 
         form = CreateOrUpdateBlogForm(data=request.get_json(force=True))
 
-        #TODO wrap this into a service
+        if not form.validate():
+            abort(400, errors=form.errors)
+
         form.populate_obj(post)
-        db.session.add(post)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.save_update(post)
 
         return post, 200
 
 
 class BlogPostList(Resource):
+    service = BlogService()
 
     @marshal_with(list_fields)
     def get(self):
-        post = Post.query.all()
-        return post
+        return self.service.get_all()
 
     @marshal_with(post_fields)
     def post(self):
@@ -82,16 +80,13 @@ class BlogPostList(Resource):
         if not form.validate():
             abort(400, errors=form.errors)
 
-        #TODO wrap this into a service
         post = Post(title=form.title.data, content=form.content.data)
-        existing_post = Post.query.filter_by(title=post.title).first()
 
+        existing_post = self.service.get_by_title(post.title)
         if existing_post:
             abort(409, error="Post {} already exist".format(post.title))
 
-        db.session.add(post)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.save_update(post)
 
         return post, 201
 

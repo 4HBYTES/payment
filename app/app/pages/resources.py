@@ -3,8 +3,8 @@ from flask import Blueprint, request
 from flask_restful import Api, Resource
 from flask_restful import abort, fields, marshal_with, marshal, reqparse
 
-from app import db
 from app.pages.models import Page
+from app.pages.services import PageService
 from app.pages.forms import CreateOrUpdatePageForm
 
 page_bp = Blueprint('page_api', __name__)
@@ -27,9 +27,11 @@ list_fields = {
 
 class PageDetail(Resource):
 
+    service = PageService()
+
     @marshal_with(page_fields)
     def get(self, slug):
-        page = Page.query.filter_by(slug=slug).first()
+        page = self.service.get_by_slug(slug)
 
         if not page:
             abort(404, error="Page {} doesn't exist".format(slug))
@@ -37,21 +39,18 @@ class PageDetail(Resource):
         return page
 
     def delete(self, slug):
-        page = Page.query.filter_by(slug=slug).first()
+        page = self.service.get_by_slug(slug)
 
         if not page:
             abort(404, error="Page {} doesn't exist".format(slug))
 
-        #TODO wrap this into a service
-        db.session.delete(page)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.delete(page)
 
         return {}, 204
 
     @marshal_with(page_fields)
     def put(self, slug):
-        page = Page.query.filter_by(slug=slug).first()
+        page = self.service.get_by_slug(slug)
 
         if not page:
             abort(404, error="Page {} doesn't exist".format(slug))
@@ -61,22 +60,20 @@ class PageDetail(Resource):
         if not form.validate():
             abort(400, errors=form.errors)
 
-        #TODO wrap this into a service
         form.populate_obj(page)
-        db.session.add(page)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.save_update(page)
 
         return page, 200
 
 
 class PageList(Resource):
 
+    service = PageService()
+
     # TODO: Use pagination
     @marshal_with(list_fields)
     def get(self):
-        pages = Page.query.all()
-        return pages
+        return self.service.get_all()
 
     @marshal_with(page_fields)
     def post(self):
@@ -85,16 +82,13 @@ class PageList(Resource):
         if not form.validate():
             abort(400, errors=form.errors)
 
-        #TODO wrap this into a service
         page = Page(title=form.title.data, content=form.content.data)
-        existing_page = Page.query.filter_by(title=page.title).first()
+        existing_page = self.service.get_by_title(page.title)
 
         if existing_page:
             abort(409, error="Page {} already exist".format(page.title))
 
-        db.session.add(page)
-        db.session.commit()
-        #TODO wrap this into a service
+        self.service.save_update(page)
 
         return page, 201
 
