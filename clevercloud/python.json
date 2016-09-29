@@ -4,6 +4,6 @@
     },
     "deploy": {
         "module": "app:app",
-        "static": ""
+        "static": "/clevercloud/static/"
     }
 }
