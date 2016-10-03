@@ -2,7 +2,8 @@
 
 import requests
 import os
-SlackWebhookURL = os.getenv['SLACK_WEBHOOK_URL']
-SlackMessage = "App: " + os.getenv['APP_ID'] + "\nInstance Id: " + os.getenv['INSTANCE_ID'] + "\nInstance Type: " + os.getenv['INSTANCE_TYPE'] + "\nCommit Id: " + os.getenv['COMMIT_ID'] + "\nInstance Number: " + os.getenv['INSTANCE_NUMBER']
+SlackWebhookURL = os.getenv('SLACK_WEBHOOK_URL')
+SlackMessage = "App: " + os.getenv('APP_ID') + "\nInstance Id: " + os.getenv('INSTANCE_ID') + "\nInstance Type: " + os.getenv('INSTANCE_TYPE') + "\nCommit Id: " + os.getenv('COMMIT_ID') + "\nInstance Number: " + os.getenv('INSTANCE_NUMBER')
 payload = {'text': SlackMessage}
-r = requests.post(SlackWebhookURL, data=payload)
+r = requests.post(SlackWebhookURL, json=payload)
+print r.text
