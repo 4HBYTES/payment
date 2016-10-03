@@ -5,5 +5,8 @@
     "deploy": {
         "module": "app:app",
         "static": ""
+    },
+    "hooks": {
+        "postDeploy": "./clevercloud/post_deploy"
     }
 }
