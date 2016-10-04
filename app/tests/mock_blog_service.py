@@ -3,6 +3,7 @@ from datetime import datetime
 
 from app.blog.models import BlogPost
 
+
 class MockBlogService(object):
 
     def _make_mock(self, id=1):

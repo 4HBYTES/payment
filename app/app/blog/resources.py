@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
 from flask_restful import Api, Resource
-from flask_restful import abort, fields, marshal_with, reqparse
+from flask_restful import abort, fields, marshal_with
 
 from app.blog.models import BlogPost as Post
 from app.blog.forms import CreateOrUpdateBlogForm
@@ -25,6 +25,7 @@ list_fields = {
     'title': fields.String,
     'slug': fields.String,
 }
+
 
 class BlogPostDetail(Resource):
     service = BlogService()

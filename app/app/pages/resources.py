@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
 from flask_restful import Api, Resource
-from flask_restful import abort, fields, marshal_with, marshal, reqparse
+from flask_restful import abort, fields, marshal_with
 
 from app.pages.models import Page
 from app.pages.services import PageService
@@ -24,6 +24,7 @@ list_fields = {
     'title': fields.String,
     'slug': fields.String,
 }
+
 
 class PageDetail(Resource):
 

@@ -1,6 +1,7 @@
 from app import db
 from app.base.models import Base
 
+
 class Page(Base):
 
     __tablename__ = 'pages_page'

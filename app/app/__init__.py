@@ -1,7 +1,5 @@
 import flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import Api
-from flask_restful import abort
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_swagger import swagger
@@ -13,6 +11,7 @@ migrate = Migrate(app, db)
 
 CORS(app, resources=r'/*', allow_headers='*')
 
+
 @app.route("/spec")
 def spec():
     swag = swagger(app)
@@ -21,14 +20,17 @@ def spec():
     swag['info']['description'] = "Api boilerplate for python flask based microservices"
     return flask.jsonify(swag)
 
+
 @app.errorhandler(404)
 def not_found(error):
     err = {'message': "Resource doesn't exist."}
     return flask.jsonify(**err)
 
-
-from app.blog.resources import blog_bp
-from app.pages.resources import page_bp
+# We need to import those blueprints, AFTER the initialization
+# of both 'app', and 'db', this is why we are importing them
+# here, and ignoring the E402 error.
+from app.blog.resources import blog_bp  # noqa: E402
+from app.pages.resources import page_bp  # noqa: E402
 
 app.register_blueprint(
     blog_bp,

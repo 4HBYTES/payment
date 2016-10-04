@@ -1,6 +1,7 @@
 from app import db
 from app.pages.models import Page
 
+
 class PageService(object):
 
     def delete(self, page):
