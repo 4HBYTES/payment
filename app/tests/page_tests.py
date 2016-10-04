@@ -6,8 +6,9 @@ from mock_page_service import MockPageService
 
 import app
 
-#TODO: do not keep this global
+# TODO: do not keep this global
 mock_page_service = MockPageService()
+
 
 class BlogTests(unittest.TestCase):
 

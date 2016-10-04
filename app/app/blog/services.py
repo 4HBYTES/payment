@@ -1,6 +1,7 @@
 from app import db
 from app.blog.models import BlogPost as Post
 
+
 class BlogService(object):
 
     def delete(self, post):

@@ -3,6 +3,7 @@ from datetime import datetime
 
 from app.pages.models import Page
 
+
 class MockPageService(object):
 
     def _make_mock(self, id=1):

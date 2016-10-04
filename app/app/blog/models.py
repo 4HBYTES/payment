@@ -1,6 +1,7 @@
 from app import db
 from app.base.models import Base
 
+
 class BlogPost(Base):
 
     __tablename__ = 'blog_blogpost'
