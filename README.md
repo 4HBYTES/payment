@@ -20,6 +20,7 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
  * `DEBUG: boolean` True will enable debug mode
  * `SQLALCHEMY_DATABASE_URI: String` Database URI
  * `SECRET_KEY: String` Secret key
+ * `LOGENTRIES_TOKEN: String` Token for logentries service
 
 ## Curl examples
 
