@@ -4,8 +4,14 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_swagger import swagger
 
+from logger import ContextualFilter, handler
+
 app = flask.Flask(__name__)
 app.config.from_object('config')
+
+app.logger.addFilter(ContextualFilter())
+app.logger.addHandler(handler)
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -25,6 +31,13 @@ def spec():
 def not_found(error):
     err = {'message': "Resource doesn't exist."}
     return flask.jsonify(**err)
+
+
+@app.errorhandler(Exception)
+def internal_error(error):
+    app.logger.error(error)
+    err = {'message': "Internal server error"}
+    return flask.jsonify(**err), 500
 
 # We need to import those blueprints, AFTER the initialization
 # of both 'app', and 'db', this is why we are importing them

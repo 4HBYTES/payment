@@ -215,6 +215,7 @@ class PageList(Resource):
           schema:
             $ref: '#/definitions/UpdatePage'
         """
+        raise Exception('This is an exception test')
         form = CreateOrUpdatePageForm(data=request.get_json(force=True))
 
         if not form.validate():
