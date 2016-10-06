@@ -1,12 +1,13 @@
 from mock import Mock
 from datetime import datetime
+from uuid import uuid4
 
 from app.pages.models import Page
 
 
 class MockPageService(object):
 
-    def _make_mock(self, id=1):
+    def _make_mock(self, id=uuid4()):
         page = Mock(spec=Page)
         page.id = id
         page.title = "Page #{}".format(id)
@@ -37,6 +38,6 @@ class MockPageService(object):
 
     def get_all(self):
         return [
-            self._make_mock(1),
-            self._make_mock(2)
+            self._make_mock(),
+            self._make_mock()
         ]
