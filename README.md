@@ -10,16 +10,29 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
  * Form validation with wtforms
  * Endpoint documented with flask-swagger
  * Test environment : unittest, nose, coverage
+ * JSON logging on the stdout and logentries
 
 ## Some goals/wanted features:
 
- * JSON logging on the stdout (12 factors app)
+ * `Travis integration for unit tests and coverage`
+
+## Installation
+
+This project requires pip and virtualenv.
+
+ * `virtualenv env`
+ * `source env/bin/activate`
+ * `cd app`
+ * `pip install -r requirements.txt`
+ * `pip install -r tests/requirements.txt`
+ * `python manage.py runserver`
 
 ## Environment variables
 
  * `DEBUG: boolean` True will enable debug mode
  * `SQLALCHEMY_DATABASE_URI: String` Database URI
  * `SECRET_KEY: String` Secret key
+ * `LOGENTRIES_TOKEN: String` Token for logentries service
 
 ## Curl examples
 
