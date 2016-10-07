@@ -1,15 +1,17 @@
 import re
+import uuid
 from unicodedata import normalize
 from datetime import datetime
 
 from app import db
+from app.base.guid import GUID
 
 
 class Base(db.Model):
 
     __abstract__ = True
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(GUID, primary_key=True, default=uuid.uuid4)
     created = db.Column(db.DateTime, default=datetime.now())
     modified = db.Column(
         db.DateTime,
