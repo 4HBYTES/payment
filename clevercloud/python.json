@@ -3,7 +3,7 @@
         "folder": "app"
     },
     "deploy": {
-        "module": "app:auth",
+        "module": "auth:app",
         "static": "/clevercloud/static/"
     },
     "hooks": {
