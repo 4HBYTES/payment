@@ -1,0 +1,4 @@
+[flake8]
+ignore = E501
+exclude = migrations
+max-complexity = 10

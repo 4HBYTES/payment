@@ -1,0 +1,12 @@
+{
+    "build": {
+        "folder": "app"
+    },
+    "deploy": {
+        "module": "app:auth",
+        "static": "/clevercloud/static/"
+    },
+    "hooks": {
+        "postDeploy": "./clevercloud/post_deploy"
+    }
+}
