@@ -30,7 +30,7 @@ def spec():
 @app.errorhandler(404)
 def not_found(error):
     err = {'message': "Resource doesn't exist."}
-    return flask.jsonify(**err)
+    return flask.jsonify(**err), 404
 
 
 @app.errorhandler(Exception)
