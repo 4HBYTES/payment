@@ -17,8 +17,8 @@ CORS(app, resources=r'/*', allow_headers='*')
 def spec():
     swag = swagger(app)
     swag['info']['version'] = "1.0"
-    swag['info']['title'] = "Api boilerplate"
-    swag['info']['description'] = "Api boilerplate for python flask based microservices"
+    swag['info']['title'] = "Auth"
+    swag['info']['description'] = "Micro service in charge of signup/signin"
     return flask.jsonify(swag)
 
 
