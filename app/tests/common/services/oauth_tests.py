@@ -5,7 +5,7 @@ import auth.common.services.http as http
 import mocks
 
 
-class HttpTests(unittest.TestCase):
+class OauthTests(unittest.TestCase):
 
     @mock.patch(
         'auth.common.services.oauth.make_query',

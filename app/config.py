@@ -12,3 +12,4 @@ NEW_RELIC_CONFIG_FILE = 'newrelic.ini newrelic-admin run-program command options
 OAUTH_APP_TOKEN = os.environ.get('OAUTH_APP_TOKEN', '37ee02db-14e3-4303-a910-849ae94429de')
 
 OAUTH_API = os.environ.get('OAUTH_API', 'https://secure.icflix.io/v12.16/oauth/')
+BILLING_API = os.environ.get('BILLING_API', 'https://api.icflix.io/v12.16/billing/')

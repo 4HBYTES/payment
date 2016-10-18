@@ -9,11 +9,11 @@ class DummyResponse(object):
         return {}
 
 
-def make_query_200(verb, url, params, headers):
+def make_query_200(verb, url, params, headers, status_code_ok=200):
         return DummyResponse(200)
 
 
-def make_query_raise_error(verb, url, paranms, headers):
+def make_query_raise_error(verb, url, paranms, headers, status_code_ok=200):
     raise http.HttpError('Nope')
 
 
