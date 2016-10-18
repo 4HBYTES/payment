@@ -16,6 +16,8 @@ This project requires pip and virtualenv.
  * `DEBUG: boolean` True will enable debug mode, and display full stack trace and an interactive shell in the browser
  * `SECRET_KEY: String` Secret key of the application, make sure to change it every time you make a new project
  * `LOGENTRIES_TOKEN: String` Token for logentries service, can be left empty when developing locally
+ * `OAUTH_API: String` Base URL for the oauth API
+ * `OAUTH_APP_TOKEN: String` Application token to use 'old' services behind oauth
 
 ## Curl examples
 
