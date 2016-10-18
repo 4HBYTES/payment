@@ -17,7 +17,7 @@ This project requires pip and virtualenv.
  * `SECRET_KEY: String` Secret key of the application, make sure to change it every time you make a new project
  * `LOGENTRIES_TOKEN: String` Token for logentries service, can be left empty when developing locally
  * `OAUTH_API: String` Base URL for the oauth API
- * `APP_TOKEN: String` Application token to use 'old' services behind oauth
+ * `OAUTH_APP_TOKEN: String` Application token to use 'old' services behind oauth
 
 ## Curl examples
 

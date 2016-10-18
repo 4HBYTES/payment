@@ -14,6 +14,6 @@ class OauthService(object):
         Returns the json parsed response or raise an HTTP error
         '''
         params = {'email': email}
-        headers = {'Authorization': 'Bearer {}'.format(app.config['APP_TOKEN'])}
+        headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
         url = app.config['OAUTH_API'] + 'user/byemail'
         return make_query('get', url, params, headers)
