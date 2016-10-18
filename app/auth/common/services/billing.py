@@ -21,7 +21,7 @@ class BillingService(object):
         }
         headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
         url = app.config['BILLING_API'] + 'instruments/recurrent'
-        return make_query('post', url, params, headers)
+        return make_query('post', url, params, headers, 201)
 
     def send_sms_activation_code(self, msisdn, lang):
         '''
@@ -32,7 +32,7 @@ class BillingService(object):
         params = {'msisdn': msisdn, 'lang': lang}
         headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
         url = app.config['BILLING_API'] + 'instruments/recurrent/send'
-        return make_query('post', url, params, headers)
+        return make_query('post', url, params, headers, 201)
 
     def activate_msisdn(self, msisdn, activation_code, product_code, user_id, lang):
         '''
@@ -49,4 +49,4 @@ class BillingService(object):
         }
         headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
         url = app.config['BILLING_API'] + 'instruments/recurrent/activate'
-        return make_query('post', url, params, headers)
+        return make_query('post', url, params, headers, 201)
