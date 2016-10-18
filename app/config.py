@@ -13,3 +13,4 @@ OAUTH_APP_TOKEN = os.environ.get('OAUTH_APP_TOKEN', '37ee02db-14e3-4303-a910-849
 
 OAUTH_API = os.environ.get('OAUTH_API', 'https://secure.icflix.io/v12.16/oauth/')
 BILLING_API = os.environ.get('BILLING_API', 'https://api.icflix.io/v12.16/billing/')
+USER_API = os.environ.get('USER_API', 'https://api.icflix.io/v12.16/user/')
