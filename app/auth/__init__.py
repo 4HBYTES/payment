@@ -37,8 +37,11 @@ def internal_error(error):
 @app.after_request
 def after_request(response):
     '''
-    Currently logging every single request
+    Currently logging every single request, except non failing /health/
     '''
+    if flask.request.path == '/health/' and response.status_code == 200:
+        return response
+
     app.logger.info(
         response.status,
         extra={
@@ -47,6 +50,17 @@ def after_request(response):
         }
     )
     return response
+
+
+# We need to import those blueprints, AFTER the initialization
+# of 'app', this is why we are importing them here,
+# and ignoring the Flake8 error.
+from auth.health.resources import health_bp  # noqa: E402
+
+app.register_blueprint(
+    health_bp,
+    url_prefix='/health'
+)
 
 if app.config['DEBUG']:
     import newrelic.agent

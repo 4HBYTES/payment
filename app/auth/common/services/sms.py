@@ -22,3 +22,14 @@ class SmsService(object):
         headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
         url = app.config['SMS_API'] + 'outgoing'
         return make_query('get', url, params, headers, 201)
+
+    def health(self):
+        '''
+        Calls the endpoint sms/health
+        Source: not documented
+        Returns the json parsed response or raise an HTTP error
+        '''
+        params = {}
+        headers = {'Authorization': 'Bearer {}'.format(app.config['OAUTH_APP_TOKEN'])}
+        url = app.config['SMS_API'] + 'health'
+        return make_query('get', url, params, headers)
