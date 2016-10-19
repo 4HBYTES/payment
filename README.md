@@ -52,6 +52,9 @@ You can then repeat the steps above to apply the migration and check the status.
  * `SQLALCHEMY_DATABASE_URI: String` Database URI, format -> rdbms://user:password@host:port/database
  * `SECRET_KEY: String` Secret key of the application, make sure to change it every time you make a new project
  * `LOGENTRIES_TOKEN: String` Token for logentries service, can be left empty when developing locally
+ * `APP_NAME: String` Application's name
+ * `ENVIRONMENT: String` Application's environment (staging or production)
+ * `APP_TOKEN: String` Application's token
 
 ## Curl examples
 
