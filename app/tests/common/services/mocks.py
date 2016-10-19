@@ -2,11 +2,12 @@ import auth.common.services.http as http
 
 
 class DummyResponse(object):
-    def __init__(self, status_code):
+    def __init__(self, status_code, extra={}):
         self.status_code = status_code
+        self.extra = extra
 
     def json(self):
-        return {}
+        return self.extra
 
 
 def make_query_200(verb, url, params, headers={}, status_code_ok=200):
@@ -63,3 +64,18 @@ class MockSmsService(object):
 
     def health_failure(self):
         raise http.HttpError('Nope')
+
+
+class MockUserService(object):
+    '''
+    Mocks the UserService
+    '''
+
+    def get_current_profile_none(self, access_token):
+        raise http.HttpError('Nope')
+
+    def get_current_profile_basic(self, access_token):
+        return DummyResponse(200, {'subscription_status': 'free'}).json()
+
+    def get_current_profile_premium(self, access_token):
+        return DummyResponse(200, {'subscription_status': 'full'}).json()

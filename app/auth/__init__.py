@@ -56,10 +56,16 @@ def after_request(response):
 # of 'app', this is why we are importing them here,
 # and ignoring the Flake8 error.
 from auth.health.resources import health_bp  # noqa: E402
+from auth.express.resources import express_bp  # noqa: E402
 
 app.register_blueprint(
     health_bp,
     url_prefix='/health'
+)
+
+app.register_blueprint(
+    express_bp,
+    url_prefix='/express'
 )
 
 if app.config['DEBUG']:
