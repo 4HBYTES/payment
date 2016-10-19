@@ -18,10 +18,17 @@ This project requires pip and virtualenv.
  * `LOGENTRIES_TOKEN: String` Token for logentries service, can be left empty when developing locally
  * `OAUTH_API: String` Base URL for the oauth API
  * `OAUTH_APP_TOKEN: String` Application token to use 'old' services behind oauth
+ * `OAUTH_API: String` Oauth API endpoint
+ * `BILLING_API: String` Billing API endpoint
+ * `USER_API: String` User API endpoint
+ * `SMS_API: String` Sms Gateway API endpoint
+ * `APP_NAME: String` Application's name
+ * `ENVIRONMENT: String` Application's environment (staging or production)
+ * `APP_TOKEN: String` Application's token
 
 ## Curl examples
 
-TODO
+ * `curl http://localhost:5000/health/\?token\=053c4071-a683-4cbf-831d-394e6be95482`
 
 ## Documentation
 

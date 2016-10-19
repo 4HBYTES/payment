@@ -27,3 +27,24 @@ class SmsTests(unittest.TestCase):
             response = service.send('971651234561', 'duae', 'express_welcome', {})
             mock_raise.assert_called()
             self.assertIsNone(response)
+
+    @mock.patch(
+        'auth.common.services.sms.make_query',
+        side_effect=mocks.make_query_200
+    )
+    def test_health_ok(self, mock_status):
+        service = SmsService()
+        response = service.health()
+        mock_status.assert_called()
+        self.assertIsNotNone(response)
+
+    @mock.patch(
+        'auth.common.services.sms.make_query',
+        side_effect=mocks.make_query_raise_error
+    )
+    def test_health_raise(self, mock_raise):
+        service = SmsService()
+        with self.assertRaises(http.HttpError):
+            response = service.health()
+            mock_raise.assert_called()
+            self.assertIsNone(response)

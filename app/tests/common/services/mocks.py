@@ -9,11 +9,11 @@ class DummyResponse(object):
         return {}
 
 
-def make_query_200(verb, url, params, headers, status_code_ok=200):
+def make_query_200(verb, url, params, headers={}, status_code_ok=200):
         return DummyResponse(200)
 
 
-def make_query_raise_error(verb, url, paranms, headers, status_code_ok=200):
+def make_query_raise_error(verb, url, paranms, headers={}, status_code_ok=200):
     raise http.HttpError('Nope')
 
 
@@ -33,3 +33,33 @@ def raise_connection_error(verb):
     def method(url, params, headers):
         raise http.ConnectionError('Nope')
     return method
+
+
+class MockOauthService(object):
+    '''
+    Mocks the OauthService
+    '''
+
+    def get_by_email_ok(self, email):
+        return DummyResponse(200)
+
+    def get_by_email_failure(self, email):
+        raise http.HttpError('Nope')
+
+    def health_ok(self):
+        return DummyResponse(200)
+
+    def health_failure(self):
+        raise http.HttpError('Nope')
+
+
+class MockSmsService(object):
+    '''
+    Mocks the SmsService
+    '''
+
+    def health_ok(self):
+        return DummyResponse(200)
+
+    def health_failure(self):
+        raise http.HttpError('Nope')
