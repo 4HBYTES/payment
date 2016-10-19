@@ -9,6 +9,7 @@ from auth import app
 from auth.common.services.http import HttpError
 from auth.common.services.oauth import OauthService
 from auth.common.services.sms import SmsService
+from auth.common.services.products import ProductsService
 from auth.health.models import Health
 from auth.health.forms import HealthForm
 
@@ -36,6 +37,7 @@ def make_health_model(status):
 class HealthDetails(Resource):
     oauth_service = OauthService()
     sms_service = SmsService()
+    products_service = ProductsService()
 
     @marshal_with(health_fields)
     def get(self):
@@ -90,6 +92,11 @@ class HealthDetails(Resource):
             self.sms_service.health()
         except HttpError:
             return make_health_model("sms gateway down"), 500
+
+        try:
+            self.products_service.health()
+        except HttpError:
+            return make_health_model("products down"), 500
 
         # TODO: Billing and User profile APIs do not have a /health
         # Source: https://github.com/icflix-hub/auth/issues/6

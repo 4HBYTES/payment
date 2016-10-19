@@ -15,6 +15,7 @@ OAUTH_API = os.environ.get('OAUTH_API', 'https://secure.icflix.io/v12.16/oauth/'
 BILLING_API = os.environ.get('BILLING_API', 'https://api.icflix.io/v12.16/billing/')
 USER_API = os.environ.get('USER_API', 'https://api.icflix.io/v12.16/user/')
 SMS_API = os.environ.get('SMS_API', 'https://api.icflix.io/v12.16/sms/')
+PRODUCTS_API = os.environ.get('PRODUCTS_API', 'https://icmoney-staging.icflix.com/api/')
 
 APP_NAME = os.environ.get('APP_NAME', 'auth')
 
