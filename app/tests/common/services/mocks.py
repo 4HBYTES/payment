@@ -79,3 +79,15 @@ class MockUserService(object):
 
     def get_current_profile_premium(self, access_token):
         return DummyResponse(200, {'subscription_status': 'full'}).json()
+
+
+class MockProductsService(object):
+    '''
+    Mocks the ProductService
+    '''
+
+    def health_ok(self):
+        return DummyResponse(200)
+
+    def health_failure(self):
+        raise http.HttpError('Nope')
