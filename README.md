@@ -22,6 +22,7 @@ This project requires pip and virtualenv.
  * `BILLING_API: String` Billing API endpoint
  * `USER_API: String` User API endpoint
  * `SMS_API: String` Sms Gateway API endpoint
+ * `PRODUCTS_API: String` Products API endpoint
  * `APP_NAME: String` Application's name
  * `ENVIRONMENT: String` Application's environment (staging or production)
  * `APP_TOKEN: String` Application's token
