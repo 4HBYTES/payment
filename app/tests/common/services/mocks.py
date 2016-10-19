@@ -91,3 +91,67 @@ class MockProductsService(object):
 
     def health_failure(self):
         raise http.HttpError('Nope')
+
+    def get_payment_methods_raise(self, country, platform):
+        raise http.HttpError('Nope')
+
+    def get_payment_methods_no_telcos(self, country, platform):
+        return DummyResponse(200, {'payment_methods': []}).json()
+
+    def get_payment_methods_no_sms_recurrent(self, country, platform):
+        data = {
+            'payment_methods': [{
+                'payment_method': 'duae',
+                'payment_class': 'credit_card'
+            }]
+        }
+        return DummyResponse(200, data).json()
+
+    def get_payment_methods_no_client_meta(self, country, platform):
+        data = {
+            'payment_methods': [{
+                'payment_method': 'duae',
+                'payment_class': 'sms_recurrent'
+            }]
+        }
+        return DummyResponse(200, data).json()
+
+    def get_payment_methods_client_meta_empty(self, country, platform):
+        data = {
+            'payment_methods': [{
+                'payment_method': 'duae',
+                'payment_class': 'sms_recurrent',
+                'client_meta': {}
+            }]
+        }
+        return DummyResponse(200, data).json()
+
+    def get_payment_methods_client_meta_false(self, country, platform):
+        data = {
+            'payment_methods': [{
+                'payment_method': 'duae',
+                'payment_class': 'sms_recurrent',
+                'client_meta': {
+                    'can_request_code': False
+                }
+            }]
+        }
+        return DummyResponse(200, data).json()
+
+    def get_payment_methods_ok(self, country, platform):
+        data = {
+            'payment_methods': [{
+                'payment_method': 'duae',
+                'payment_class': 'sms_recurrent',
+                'banner_url': 'http://',
+                'mobile_banner_url': 'http://',
+                'express_icon_url': 'http://',
+                'client_meta': {
+                    'can_request_code': True
+                },
+                'products': [{
+                    'uuid': '1234-1234-4321-4321'
+                }]
+            }]
+        }
+        return DummyResponse(200, data).json()
