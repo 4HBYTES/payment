@@ -1,7 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, abort
+from flask_restful import Api, Resource, fields, marshal_with
 
-from flask_restful import Api, Resource
-from flask_restful import abort, fields, marshal_with
 
 from datetime import datetime
 
@@ -81,7 +80,7 @@ class HealthDetails(Resource):
         """
         form = HealthForm(request.args)
         if not form.validate():
-            abort(401, errors=form.errors)
+            abort(401, form.errors)
 
         try:
             self.oauth_service.health()

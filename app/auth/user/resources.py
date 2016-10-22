@@ -1,7 +1,5 @@
 from flask import Blueprint
-
-from flask_restful import Api, Resource
-from flask_restful import fields, marshal_with
+from flask_restful import Api, Resource, fields, marshal_with
 
 from auth.common.services.http import HttpError
 from auth.common.services.user import UserService

@@ -20,7 +20,7 @@ class ProductsTests(unittest.TestCase):
     )
     def test_products_down(self, mock_products):
         rv = self.app.get('/products/duae')
-        self.assertEqual(rv.status_code, 500)
+        self.assertEqual(rv.status_code, 503)
 
         mock_products.assert_called()
 
