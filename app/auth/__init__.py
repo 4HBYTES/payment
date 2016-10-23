@@ -22,6 +22,18 @@ def spec():
     return flask.jsonify(swag)
 
 
+@app.errorhandler(404)
+def not_found(error):
+    err = {'message': "Resource doesn't exist."}
+    return flask.jsonify(**err), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    err = {'message': "Internal server error"}
+    return flask.jsonify(**err), 500
+
+
 @app.after_request
 def after_request(response):
     '''
