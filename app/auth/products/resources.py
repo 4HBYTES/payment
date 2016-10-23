@@ -1,20 +1,13 @@
-from flask import Blueprint, request
-
-from flask_restful import Api, Resource
-from flask_restful import abort, fields, marshal_with
+from flask import Blueprint, request, abort
+from flask_restful import Api, Resource, fields, marshal_with
 
 from auth.common.services.http import HttpError
-from auth.common.services.user import UserService
 from auth.common.services.products import ProductsService
-from auth.express.models import Status, Products
+from auth.products.models import Products
 
 
-express_bp = Blueprint('express_api', __name__)
-api = Api(express_bp)
-
-status_fields = {
-    'subscription_status': fields.String
-}
+products_bp = Blueprint('products_api', __name__)
+api = Api(products_bp)
 
 product_fields = {
     'uuid': fields.String,
@@ -38,44 +31,7 @@ products_fields = {
 }
 
 
-class ExpressStatus(Resource):
-    user_service = UserService()
-
-    @marshal_with(status_fields)
-    def get(self, token):
-        """
-        Determines if the token is valid and returns the subscription status
-        ---
-        definitions:
-        - schema:
-            id: ExpressStatus
-            properties:
-                status:
-                    type: string
-                    description: can be none, basic or premium
-        responses:
-            200:
-                description: subscription status related to the token
-                schema:
-                    $ref: '#/definitions/ExpressStatus'
-        parameters:
-        - name: token
-          in: path
-          description: user's token
-          required: true
-          type: string
-        """
-        try:
-            response = self.user_service.get_current_profile(token)
-            if response['subscription_status'] == "full":
-                return Status('premium')
-            else:
-                return Status('basic')
-        except HttpError:
-            return Status('none')
-
-
-class ExpressProducts(Resource):
+class ProductsResource(Resource):
     products_service = ProductsService()
 
     @marshal_with(products_fields)
@@ -174,8 +130,8 @@ class ExpressProducts(Resource):
         try:
             response = self.products_service.\
                 get_payment_methods_by_country_and_platform(country, platform)
-        except HttpError:
-            abort(500, error="products down")
+        except HttpError as e:
+            abort(503, e.message)
 
         payment_methods = response['payment_methods']
         payment_method = next(
@@ -183,19 +139,19 @@ class ExpressProducts(Resource):
             None)
 
         if payment_method is None:
-            abort(404, error="cannot find telco")
+            abort(404, "cannot find telco")
 
         is_sms_recurrent = payment_method['payment_class'] == 'sms_recurrent'
 
         if not is_sms_recurrent:
-            abort(404, error="telco is not sms recurrent")
+            abort(404, "telco is not sms recurrent")
 
         client_meta = payment_method.get('client_meta', False)
         is_supported = client_meta and \
             client_meta.get('can_request_code', False)
 
         if not is_supported:
-            abort(404, error="telco does not support direct billing")
+            abort(404, "telco does not support direct billing")
 
         products = payment_method['products']
         product = None
@@ -209,5 +165,4 @@ class ExpressProducts(Resource):
             payment_method['express_icon_url'],
             [product] if product else products)
 
-api.add_resource(ExpressStatus, '/status/<string:token>')
-api.add_resource(ExpressProducts, '/products/<string:telco>', '/products/<string:telco>/<string:product_id>')
+api.add_resource(ProductsResource, '/<string:telco>', '/<string:telco>/<string:product_id>')

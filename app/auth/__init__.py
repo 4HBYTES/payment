@@ -22,18 +22,6 @@ def spec():
     return flask.jsonify(swag)
 
 
-@app.errorhandler(404)
-def not_found(error):
-    err = {'message': "Resource doesn't exist."}
-    return flask.jsonify(**err), 404
-
-
-@app.errorhandler(Exception)
-def internal_error(error):
-    err = {'message': "Internal server error"}
-    return flask.jsonify(**err), 500
-
-
 @app.after_request
 def after_request(response):
     '''
@@ -56,7 +44,8 @@ def after_request(response):
 # of 'app', this is why we are importing them here,
 # and ignoring the Flake8 error.
 from auth.health.resources import health_bp  # noqa: E402
-from auth.express.resources import express_bp  # noqa: E402
+from auth.user.resources import user_bp  # noqa: E402
+from auth.products.resources import products_bp  # noqa: E402
 
 app.register_blueprint(
     health_bp,
@@ -64,8 +53,13 @@ app.register_blueprint(
 )
 
 app.register_blueprint(
-    express_bp,
-    url_prefix='/express'
+    user_bp,
+    url_prefix='/user'
+)
+
+app.register_blueprint(
+    products_bp,
+    url_prefix='/products'
 )
 
 if app.config['DEBUG']:

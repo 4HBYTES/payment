@@ -29,6 +29,13 @@ class ContextualFilter(Filter):
         return ''
 
     def filter(self, log_record):
+        # This is to avoid logging information without the extra
+        # parameter data, see comments in PR #28
+        try:
+            log_record.response
+        except AttributeError:
+            return False
+
         log_record.host = request.url_root
         log_record.uri = request.path
         log_record.method = request.method
