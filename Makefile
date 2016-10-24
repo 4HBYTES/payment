@@ -14,7 +14,7 @@ install:
 test: lint test-unit
 
 test-unit:
-	nosetests --with-coverage --cover-package=auth -w $(APP_DIR)
+	nosetests --with-coverage --cover-package=app -w $(APP_DIR)
 
 lint:
 	python ./tools/pylint-recursive.py $(APP_DIR)
