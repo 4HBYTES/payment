@@ -1,12 +1,12 @@
 Master:
 
-[![Master Build Status](https://travis-ci.com/icflix-hub/auth.svg?token=nv4RRLczqJcogRo4WLpU&branch=master)](https://travis-ci.com/icflix-hub/auth)
-[![Master Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=master&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=master)
+[![Master Build Status](https://travis-ci.com/icflix-hub/flask-boilerplate.svg?token=nv4RRLczqJcogRo4WLpU&branch=master)](https://travis-ci.com/icflix-hub/flask-boilerplate)
+[![Master Coverage Status](https://coveralls.io/repos/github/icflix-hub/flask-boilerplate/badge.svg?branch=master&t=4rBKCh)](https://coveralls.io/github/icflix-hub/flask-boilerplate?branch=master)
 
 Develop:
 
-[![Develop Build Status](https://travis-ci.com/icflix-hub/ic-three.svg?token=nv4RRLczqJcogRo4WLpU&branch=develop)](https://travis-ci.com/icflix-hub/auth)
-[![Develop Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=develop&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=develop)
+[![Develop Build Status](https://travis-ci.com/icflix-hub/ic-three.svg?token=nv4RRLczqJcogRo4WLpU&branch=develop)](https://travis-ci.com/icflix-hub/flask-boilerplate)
+[![Develop Coverage Status](https://coveralls.io/repos/github/icflix-hub/flask-boilerplate/badge.svg?branch=develop&t=4rBKCh)](https://coveralls.io/github/icflix-hub/flask-boilerplate?branch=develop)
 
 
 This is boilerplate/skeleton code for a flask application meant for a RESTful API (with http and json)
