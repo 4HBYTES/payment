@@ -1,3 +1,14 @@
+Master:
+
+[![Master Build Status](https://travis-ci.com/icflix-hub/auth.svg?token=nv4RRLczqJcogRo4WLpU&branch=master)](https://travis-ci.com/icflix-hub/auth)
+[![Master Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=master&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=master)
+
+Develop:
+
+[![Develop Build Status](https://travis-ci.com/icflix-hub/ic-three.svg?token=nv4RRLczqJcogRo4WLpU&branch=develop)](https://travis-ci.com/icflix-hub/auth)
+[![Develop Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=develop&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=develop)
+
+
 This is the auth application responsible for signin and signup.
 
 ## Installation
@@ -28,10 +39,6 @@ make server
  * `ENVIRONMENT: String` Application's environment (staging, production or testing)
  * `APP_TOKEN: String` Application's token
 
-## Curl examples
-
- * `curl http://localhost:5000/health/\?token\=053c4071-a683-4cbf-831d-394e6be95482`
-
 ## Documentation
 
 Endpoints are documented using flask-swagger, each individuals endpoint must have swagger doc in YML format.
@@ -41,10 +48,10 @@ The final json document can be reached at: http://localhost:5000/spec
 
  Nose documentation: http://nose.readthedocs.io/en/latest/plugins/cover.html
 
- * Simple unit tests run: `make test-unit` or `cd app && nosetests`
- * Need to display stdout (print/logging/...): `nosetests --nocapture`
- * Need a code coverage report: `nosetests --with-coverage --cover-package=app`
- * Need a code coverage HTML report: add the flag `--cover-html` to the command above, a directory `cover` will be created in the current directory with an index.html
+ Simple unit tests run
+```bash
+make test-unit
+```
 
 ## Code style and Linting 
 
@@ -53,5 +60,14 @@ The final json document can be reached at: http://localhost:5000/spec
  
  To lint type 
 ```bash
- make lint
+make lint
 ```
+
+## Curl examples
+```bash
+curl http://localhost:5000/health/\?token\=053c4071-a683-4cbf-831d-394e6be95482
+```
+
+### License
+
+ICFLIX 

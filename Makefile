@@ -1,9 +1,9 @@
 SHELL:=/bin/bash
-
+APP_DIR=./app/
 all: install test
 
 server:
-	cd app && python manage.py runserver
+	cd $(APP_DIR) && python manage.py runserver
 
 install:
 	virtualenv env
@@ -14,8 +14,8 @@ install:
 test: lint test-unit
 
 test-unit:
-	cd app && nosetests
+	nosetests --with-coverage --cover-package=auth -w $(APP_DIR)
 
 lint:
-	python ./tools/pylint-recursive.py app
-	flake8 app
+	python ./tools/pylint-recursive.py $(APP_DIR)
+	flake8 $(APP_DIR)
