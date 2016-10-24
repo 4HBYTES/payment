@@ -1,10 +1,10 @@
 import unittest
+
 import mock
 
+import auth
 from tests.common.services.mocks import MockOauthService, MockSmsService, \
     MockProductsService
-
-import auth
 
 mock_oauth_service = MockOauthService()
 mock_sms_service = MockSmsService()
@@ -12,7 +12,6 @@ mock_products_service = MockProductsService()
 
 
 class HealthTests(unittest.TestCase):
-
     def setUp(self):
         self.app = auth.app.test_client()
 

@@ -1,16 +1,15 @@
-import unittest
-import mock
 import json
+import unittest
 
-from tests.common.services.mocks import MockUserService
+import mock
 
 import auth
+from tests.common.services.mocks import MockUserService
 
 mock_user_service = MockUserService()
 
 
 class ExpressTests(unittest.TestCase):
-
     access_token = 'my-random-user-token'
 
     def setUp(self):

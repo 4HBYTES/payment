@@ -11,7 +11,7 @@ class DummyResponse(object):
 
 
 def make_query_200(verb, url, params=None, headers={}, status_code_ok=200):
-        return DummyResponse(200)
+    return DummyResponse(200)
 
 
 def make_query_raise_error(verb, url, params=None, headers={}, status_code_ok=200):
@@ -21,25 +21,28 @@ def make_query_raise_error(verb, url, params=None, headers={}, status_code_ok=20
 def wrapped_status_code_500(verb):
     def method(url, params, headers):
         return DummyResponse(500)
+
     return method
 
 
 def wrapped_status_code_200(verb):
     def method(url, params, headers):
         return DummyResponse(200)
+
     return method
 
 
 def raise_connection_error(verb):
     def method(url, params, headers):
         raise http.ConnectionError('Nope')
+
     return method
 
 
 class MockOauthService(object):
-    '''
+    """
     Mocks the OauthService
-    '''
+    """
 
     def get_by_email_ok(self, email):
         return DummyResponse(200)
@@ -55,9 +58,9 @@ class MockOauthService(object):
 
 
 class MockSmsService(object):
-    '''
+    """
     Mocks the SmsService
-    '''
+    """
 
     def health_ok(self):
         return DummyResponse(200)
@@ -67,9 +70,9 @@ class MockSmsService(object):
 
 
 class MockUserService(object):
-    '''
+    """
     Mocks the UserService
-    '''
+    """
 
     def get_current_profile_none(self, access_token):
         raise http.HttpError('Nope')
@@ -82,9 +85,9 @@ class MockUserService(object):
 
 
 class MockProductsService(object):
-    '''
+    """
     Mocks the ProductService
-    '''
+    """
 
     def health_ok(self):
         return DummyResponse(200)

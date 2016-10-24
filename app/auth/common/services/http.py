@@ -1,9 +1,9 @@
-'''
+"""
 Collection of utilities to wrap the HTTP client used in this app.
 This should be used instead of the HTTP client directly, so that
 it can be changed transparently and logic can be wrapped, such
 as the logging of errors.
-'''
+"""
 
 import requests
 
@@ -17,10 +17,10 @@ class ConnectionError(requests.ConnectionError):
 
 
 def get_method_from_verb(verb):
-    '''
+    """
     Returns the appropriate requests method based on
     the http verb given in parameter.
-    '''
+    """
     if verb == 'post':
         return requests.post
     elif verb == 'put':
@@ -34,11 +34,11 @@ def get_method_from_verb(verb):
 
 
 def make_query(verb, url, params=None, headers={}, status_code_ok=200):
-    '''
+    """
     Calls the given url with all the parameters. An HTTP error is raised
     if the response's status code is different than status_code_ok.
     In case of success, returns the response in json format.
-    '''
+    """
     method = get_method_from_verb(verb)
 
     try:

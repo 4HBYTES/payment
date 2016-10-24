@@ -1,12 +1,13 @@
 import unittest
+
 import mock
-from auth.common.services.billing import BillingService
+
 import auth.common.services.http as http
 import mocks
+from auth.common.services.billing import BillingService
 
 
 class BillingTests(unittest.TestCase):
-
     @mock.patch(
         'auth.common.services.billing.make_query',
         side_effect=mocks.make_query_200

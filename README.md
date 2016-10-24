@@ -3,13 +3,14 @@ This is the auth application responsible for signin and signup.
 ## Installation
 
 This project requires pip and virtualenv.
+```bash
+make install
+```
 
- * `virtualenv env`
- * `source env/bin/activate`
- * `cd app`
- * `pip install -r requirements.txt`
- * `pip install -r tests/requirements.txt`
- * `python manage.py runserver`
+## Run
+```bash
+make server
+```
 
 ## Environment variables
 
@@ -24,7 +25,7 @@ This project requires pip and virtualenv.
  * `SMS_API: String` Sms Gateway API endpoint
  * `PRODUCTS_API: String` Products API endpoint
  * `APP_NAME: String` Application's name
- * `ENVIRONMENT: String` Application's environment (staging or production)
+ * `ENVIRONMENT: String` Application's environment (staging, production or testing)
  * `APP_TOKEN: String` Application's token
 
 ## Curl examples
@@ -40,14 +41,17 @@ The final json document can be reached at: http://localhost:5000/spec
 
  Nose documentation: http://nose.readthedocs.io/en/latest/plugins/cover.html
 
- * Simple unit tests run: `nosetests`
+ * Simple unit tests run: `make test-unit` or `cd app && nosetests`
  * Need to display stdout (print/logging/...): `nosetests --nocapture`
  * Need a code coverage report: `nosetests --with-coverage --cover-package=app`
  * Need a code coverage HTML report: add the flag `--cover-html` to the command above, a directory `cover` will be created in the current directory with an index.html
 
-## Code style
+## Code style and Linting 
 
+ * Linting is using pylint and flake8.
  * PEP-8 is followed and asserted using flake8 linter. There is a .flake8 file at the root of app, most IDEs/text editors can use it to determine the preferences.
- * Currently, the setting E501 for the max length of lines is disabled, it can be customized using: `max-line-length = 120` in the configuration file.
- * If you need to disable a specific setting on a specific line, you can add an inline comment like: `example = lambda: 'example'  # noqa: E731`
- * But it is also possible to run this tool in command line, just go inside app and type: `flake8`
+ 
+ To lint type 
+```bash
+ make lint
+```

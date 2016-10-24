@@ -5,7 +5,6 @@ from auth.common.services.http import HttpError
 from auth.common.services.products import ProductsService
 from auth.products.models import Products
 
-
 products_bp = Blueprint('products_api', __name__)
 api = Api(products_bp)
 
@@ -128,7 +127,7 @@ class ProductsResource(Resource):
         platform = request.headers.get('icflix-int-Platform', 'website')
 
         try:
-            response = self.products_service.\
+            response = self.products_service. \
                 get_payment_methods_by_country_and_platform(country, platform)
         except HttpError as e:
             abort(503, e.message)
@@ -147,8 +146,7 @@ class ProductsResource(Resource):
             abort(404, "telco is not sms recurrent")
 
         client_meta = payment_method.get('client_meta', False)
-        is_supported = client_meta and \
-            client_meta.get('can_request_code', False)
+        is_supported = client_meta and client_meta.get('can_request_code', False)
 
         if not is_supported:
             abort(404, "telco does not support direct billing")
@@ -164,5 +162,6 @@ class ProductsResource(Resource):
             payment_method['mobile_banner_url'],
             payment_method['express_icon_url'],
             [product] if product else products)
+
 
 api.add_resource(ProductsResource, '/<string:telco>', '/<string:telco>/<string:product_id>')

@@ -1,16 +1,15 @@
-import unittest
-import mock
 import json
+import unittest
 
-from tests.common.services.mocks import MockProductsService
+import mock
 
 import auth
+from tests.common.services.mocks import MockProductsService
 
 mock_products_service = MockProductsService()
 
 
 class ProductsTests(unittest.TestCase):
-
     def setUp(self):
         self.app = auth.app.test_client()
 

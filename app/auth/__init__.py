@@ -1,6 +1,7 @@
 import flask
 from flask_cors import CORS
 from flask_swagger import swagger
+
 from logger import ContextualFilter, handler, logentry_handler
 
 app = flask.Flask(__name__)
@@ -36,9 +37,9 @@ def internal_error(error):
 
 @app.after_request
 def after_request(response):
-    '''
+    """
     Currently logging every single request, except non failing /health/
-    '''
+    """
     if flask.request.path == '/health/' and response.status_code == 200:
         return response
 
@@ -74,6 +75,7 @@ app.register_blueprint(
     url_prefix='/products'
 )
 
-if app.config['DEBUG']:
+if app.config['DEBUG'] and app.config['ENVIRONMENT'] != 'testing':
     import newrelic.agent
+
     newrelic.agent.initialize('./newrelic.ini')

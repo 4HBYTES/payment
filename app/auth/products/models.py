@@ -1,7 +1,8 @@
 class Product(object):
-    '''
+    """
     Single product used in the 'products' list in Products
-    '''
+    """
+
     def __init__(self, data):
         print data
         self.retry_periods = data.get('retry_periods', None)
@@ -29,9 +30,9 @@ class Product(object):
 
 
 class Products(object):
-    '''
+    """
     Represents a Products object used by ExpressProducts resource.
-    '''
+    """
 
     def __init__(self, country, banner_url, mobile_banner_url, icon_url, products):
         self.country = country

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-from auth import app
 from flask_script import Manager, Server
+
+from auth import app
 
 manager = Manager(app)
 manager.add_command('runserver', Server())

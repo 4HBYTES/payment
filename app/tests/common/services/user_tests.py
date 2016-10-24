@@ -1,12 +1,13 @@
 import unittest
+
 import mock
-from auth.common.services.user import UserService
+
 import auth.common.services.http as http
 import mocks
+from auth.common.services.user import UserService
 
 
 class UserTests(unittest.TestCase):
-
     @mock.patch(
         'auth.common.services.user.make_query',
         side_effect=mocks.make_query_200

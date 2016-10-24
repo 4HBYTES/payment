@@ -1,17 +1,15 @@
+from datetime import datetime
+
 from flask import Blueprint, request, abort
 from flask_restful import Api, Resource, fields, marshal_with
-
-
-from datetime import datetime
 
 from auth import app
 from auth.common.services.http import HttpError
 from auth.common.services.oauth import OauthService
-from auth.common.services.sms import SmsService
 from auth.common.services.products import ProductsService
-from auth.health.models import Health
+from auth.common.services.sms import SmsService
 from auth.health.forms import HealthForm
-
+from auth.health.models import Health
 
 health_bp = Blueprint('health_api', __name__)
 api = Api(health_bp)
@@ -101,5 +99,6 @@ class HealthDetails(Resource):
         # Source: https://github.com/icflix-hub/auth/issues/6
 
         return make_health_model("ok")
+
 
 api.add_resource(HealthDetails, '/')

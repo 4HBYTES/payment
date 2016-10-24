@@ -1,12 +1,13 @@
 import unittest
+
 import mock
-from auth.common.services.oauth import OauthService
+
 import auth.common.services.http as http
 import mocks
+from auth.common.services.oauth import OauthService
 
 
 class OauthTests(unittest.TestCase):
-
     @mock.patch(
         'auth.common.services.oauth.make_query',
         side_effect=mocks.make_query_200

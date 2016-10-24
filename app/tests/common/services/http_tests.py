@@ -1,11 +1,12 @@
 import unittest
+
 import mock
+
 import auth.common.services.http as http
 import mocks
 
 
 class HttpTests(unittest.TestCase):
-
     def test_get_method_from_verb(self):
         method = http.get_method_from_verb('post')
         self.assertIsNotNone(method)

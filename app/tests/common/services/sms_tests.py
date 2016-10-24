@@ -1,12 +1,13 @@
 import unittest
+
 import mock
-from auth.common.services.sms import SmsService
+
 import auth.common.services.http as http
 import mocks
+from auth.common.services.sms import SmsService
 
 
 class SmsTests(unittest.TestCase):
-
     @mock.patch(
         'auth.common.services.sms.make_query',
         side_effect=mocks.make_query_200

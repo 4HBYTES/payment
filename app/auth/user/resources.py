@@ -5,7 +5,6 @@ from auth.common.services.http import HttpError
 from auth.common.services.user import UserService
 from auth.user.models import Status
 
-
 user_bp = Blueprint('user_api', __name__)
 api = Api(user_bp)
 

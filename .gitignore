@@ -11,3 +11,4 @@ _mailinglist
 env
 app/cover
 app/.coverage
+.idea/

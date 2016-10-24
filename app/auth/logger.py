@@ -1,9 +1,10 @@
-from flask import request
-from logging import Formatter, StreamHandler, Filter
-from logentries import LogentriesHandler
-from uuid import uuid4
 import json
 import os
+from logging import Formatter, StreamHandler, Filter
+from uuid import uuid4
+
+from flask import request
+from logentries import LogentriesHandler
 
 
 class ContextualFilter(Filter):
@@ -54,6 +55,7 @@ class ContextualFilter(Filter):
         log_record.commit_id = os.environ.get('COMMIT_ID', '')
 
         return True
+
 
 log_format = '''
 {
