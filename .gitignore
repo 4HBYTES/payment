@@ -9,5 +9,5 @@ _mailinglist
 *.db
 *.sqlite
 env
-app/cover
-app/.coverage
+.idea/
+.coverage

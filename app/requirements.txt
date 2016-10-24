@@ -1,5 +1,5 @@
-alembic==0.8.8
 aniso8601==1.1.0
+alembic==0.8.8
 app==0.0.1
 click==6.6
 flask-swagger==0.2.13
@@ -25,3 +25,6 @@ SQLAlchemy==1.1.1
 Werkzeug==0.11.11
 WTForms==2.1
 logentries==0.17
+requests==2.11.1
+pylint==1.6.4
+flake8==3.0.4

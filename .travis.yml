@@ -1,10 +1,16 @@
 language: python
+
 install:
-    - cd app
-    - pip install -r requirements.txt
-    - pip install -r tests/requirements.txt
+- make install
+- pip install python-coveralls
+- pip install coverage
+
 script:
-    - nosetests
+- make test
+
 notifications:
-    slack:
-        secure: tMqswPrV4yHOLur57Uy+kaiAEvEC60Pxkgi0/xd9ffPnDdHTiL88iCRdlVzrHTX8fz91Jtjy4PmxWbWiess+hZ3JL9EveqQjHpdViPYxQaT6lJZFNfOKmMAhSPvzHPCr8ORbZa/JRDglVNEHKP6DKX/+PCHUfHOj7oEPebc4adS0jGMAtWlp7jJSoCZ+WQ/mYxoDH6lF6tM9g9SgjO5GPOUoHOGjcelt671tJBSI6qFQ3CpzRHmwgvNZnNwBwTZzRwY3OrjjpoQtjhb0uXrCTHROe/80sdvczHaYpXWNVCr1zgh0h7X3SnOGYi+DXRIl0vLfggjx5GUAYQD5hgumekojpoKWrPFgLJ5ckA5FklXugsYfouqqjO3IVm57dLKDj4kAlx0b7fzksZOVGxihj5z4s3GI/lZYOgX1cRs1V+4uUYTN1FWcuYPhO/2KZ7T/Skvi1jII8wOqC73YoSt2ww9h7+cf9ARcdosjeWqD9taVWilJ/E/yNijT/MutNPPPcgqNtgRZ/jC5WpQtTs9noRV2pOTkzNwjylW9Fm5NnKjSyhXsYNnzljch4S2P0ZmU6nanh7+RAIGQnu++e1n31wTw4CRroEx9VW5GYu4y0ldNffCmWjLzIsDvRDWGtl/VIFS3NgPxZTMNYAXi7JLt524TlbF0WmNPk1DtXDXfuFw=
+  slack:
+    secure: tMqswPrV4yHOLur57Uy+kaiAEvEC60Pxkgi0/xd9ffPnDdHTiL88iCRdlVzrHTX8fz91Jtjy4PmxWbWiess+hZ3JL9EveqQjHpdViPYxQaT6lJZFNfOKmMAhSPvzHPCr8ORbZa/JRDglVNEHKP6DKX/+PCHUfHOj7oEPebc4adS0jGMAtWlp7jJSoCZ+WQ/mYxoDH6lF6tM9g9SgjO5GPOUoHOGjcelt671tJBSI6qFQ3CpzRHmwgvNZnNwBwTZzRwY3OrjjpoQtjhb0uXrCTHROe/80sdvczHaYpXWNVCr1zgh0h7X3SnOGYi+DXRIl0vLfggjx5GUAYQD5hgumekojpoKWrPFgLJ5ckA5FklXugsYfouqqjO3IVm57dLKDj4kAlx0b7fzksZOVGxihj5z4s3GI/lZYOgX1cRs1V+4uUYTN1FWcuYPhO/2KZ7T/Skvi1jII8wOqC73YoSt2ww9h7+cf9ARcdosjeWqD9taVWilJ/E/yNijT/MutNPPPcgqNtgRZ/jC5WpQtTs9noRV2pOTkzNwjylW9Fm5NnKjSyhXsYNnzljch4S2P0ZmU6nanh7+RAIGQnu++e1n31wTw4CRroEx9VW5GYu4y0ldNffCmWjLzIsDvRDWGtl/VIFS3NgPxZTMNYAXi7JLt524TlbF0WmNPk1DtXDXfuFw=
+
+after_success:
+  coveralls
