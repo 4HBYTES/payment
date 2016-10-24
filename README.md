@@ -1,3 +1,14 @@
+Master:
+
+[![Master Build Status](https://travis-ci.com/icflix-hub/auth.svg?token=nv4RRLczqJcogRo4WLpU&branch=master)](https://travis-ci.com/icflix-hub/auth)
+[![Master Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=master&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=master)
+
+Develop:
+
+[![Develop Build Status](https://travis-ci.com/icflix-hub/ic-three.svg?token=nv4RRLczqJcogRo4WLpU&branch=develop)](https://travis-ci.com/icflix-hub/auth)
+[![Develop Coverage Status](https://coveralls.io/repos/github/icflix-hub/auth/badge.svg?branch=develop&t=4rBKCh)](https://coveralls.io/github/icflix-hub/auth?branch=develop)
+
+
 This is boilerplate/skeleton code for a flask application meant for a RESTful API (with http and json)
 
 ## Current features:
@@ -17,19 +28,14 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
 
 ## Some goals/wanted features:
 
- * Publish code coverage reports to [coveralls](https://github.com/coagulant/coveralls-python)
  * Create functionnal tests and run them separately from the unit tests (local postgres instance)
 
 ## Installation
 
 This project requires pip and virtualenv.
-
- * `virtualenv env`
- * `source env/bin/activate`
- * `cd app`
- * `pip install -r requirements.txt`
- * `pip install -r tests/requirements.txt`
- * `python manage.py runserver`
+```bash
+make install
+```
 
 ### Prepare a local database
 
@@ -46,6 +52,11 @@ If you modify your SQLAlchemy models, you can create a new migration by running:
 
 You can then repeat the steps above to apply the migration and check the status. Make sure to always commit new migration files.
 
+## Run
+```bash
+make server
+```
+
 ## Environment variables
 
  * `DEBUG: boolean` True will enable debug mode, and display full stack trace and an interactive shell in the browser
@@ -56,13 +67,6 @@ You can then repeat the steps above to apply the migration and check the status.
  * `ENVIRONMENT: String` Application's environment (staging or production)
  * `APP_TOKEN: String` Application's token
 
-## Curl examples
-
- * `curl http://localhost:5000/page/ --data '{"title":"a", "content":"content is a"}'`
- * `curl http://localhost:5000/page/`
- * `curl http://localhost:5000/page/a`
- * `curl http://localhost:5000/page/a --data '{"title":"a", "content":"content is still about a"}' -X PUT`
- * `curl http://localhost:5000/page/a -X DELETE`
 
 ## Documentation
 
@@ -73,14 +77,31 @@ The final json document can be reached at: http://localhost:5000/spec
 
  Nose documentation: http://nose.readthedocs.io/en/latest/plugins/cover.html
 
- * Simple unit tests run: `nosetests`
- * Need to display stdout (print/logging/...): `nosetests --nocapture`
- * Need a code coverage report: `nosetests --with-coverage --cover-package=app`
- * Need a code coverage HTML report: add the flag `--cover-html` to the command above, a directory `cover` will be created in the current directory with an index.html
+ Simple unit tests run
+```bash
+make test-unit
+```
 
-## Code style
+## Code style and Linting 
 
+ * Linting is using pylint and flake8.
  * PEP-8 is followed and asserted using flake8 linter. There is a .flake8 file at the root of app, most IDEs/text editors can use it to determine the preferences.
- * Currently, the setting E501 for the max length of lines is disabled, it can be customized using: `max-line-length = 120` in the configuration file.
- * If you need to disable a specific setting on a specific line, you can add an inline comment like: `example = lambda: 'example'  # noqa: E731`
- * But it is also possible to run this tool in command line, just go inside app and type: `flake8`
+ 
+ To lint type 
+```bash
+make lint
+```
+
+## Curl examples
+```bash
+curl http://localhost:5000/page/ --data '{"title":"a", "content":"content is a"}'
+curl http://localhost:5000/page/
+curl http://localhost:5000/page/a
+curl http://localhost:5000/page/a --data '{"title":"a", "content":"content is still about a"}' -X PUT
+curl http://localhost:5000/page/a -X DELETE
+
+```
+
+### License
+
+ICFLIX 
