@@ -66,6 +66,7 @@ make server
  * `APP_NAME: String` Application's name
  * `ENVIRONMENT: String` Application's environment (staging or production)
  * `APP_TOKEN: String` Application's token
+ * `ROLLBAR_ACCESS_TOKEN: String` Rollbar's app access token
 
 
 ## Documentation
