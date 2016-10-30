@@ -1,6 +1,6 @@
 {
   "build": {
-    "folder": "app"
+    "folder": "src"
   },
   "deploy": {
     "module": "app:app",

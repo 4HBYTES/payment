@@ -1,6 +1,4 @@
 import flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_restplus import Api
 from logger import ContextualFilter, handler, logentry_handler
@@ -11,9 +9,6 @@ app.config.from_object('config')
 app.logger.addFilter(ContextualFilter())
 app.logger.addHandler(handler)
 app.logger.addHandler(logentry_handler)
-
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 CORS(app, resources=r'/*', allow_headers='*')
 
@@ -50,8 +45,7 @@ def after_request(response):
 # We need to import those blueprints, AFTER the initialization
 # of both 'app', and 'db', this is why we are importing them
 # here, and ignoring the E402 error.
-from app.blog.resources import ns as blog_ns  # noqa: E402
-from app.pages.resources import ns as pages_ns  # noqa: E402
+# TODO: Import your api namespaces here
 
 api = Api(
     app,
@@ -60,8 +54,6 @@ api = Api(
     description='Example service',
     doc=False
 )
-api.add_namespace(blog_ns)
-api.add_namespace(pages_ns)
 
 if app.config['DEBUG'] and app.config['ENVIRONMENT'] != 'testing':
     import rollbar
