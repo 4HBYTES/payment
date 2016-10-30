@@ -53,13 +53,12 @@ def after_request(response):
 from app.blog.resources import ns as blog_ns  # noqa: E402
 from app.pages.resources import ns as pages_ns  # noqa: E402
 
-doc = '/spec' if app.config['DEBUG'] else False
 api = Api(
     app,
     version='1.0',
     title='Flask Api Boileplate',
     description='Example service',
-    doc=doc
+    doc=False
 )
 api.add_namespace(blog_ns)
 api.add_namespace(pages_ns)
@@ -67,6 +66,7 @@ api.add_namespace(pages_ns)
 if app.config['DEBUG'] and app.config['ENVIRONMENT'] != 'testing':
     import rollbar
     import rollbar.contrib.flask
+    import json
     from flask import got_request_exception
 
     rollbar.init(
@@ -76,3 +76,7 @@ if app.config['DEBUG'] and app.config['ENVIRONMENT'] != 'testing':
         allow_logging_basic_config=False
     )
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+
+    @app.route('/spec/')
+    def spec():
+        return json.dumps(api.__schema__)
