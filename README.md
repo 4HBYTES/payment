@@ -14,13 +14,10 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
 ## Current features:
 
  * Decent general structure
- * Postgres integration through SQL Alchemy
- * SQL migrations with flask-migrate
  * Prod/Dev configuration in the environment
  * Clevercloud structure, deployment ready
- * Newrelic integration
- * Form validation with wtforms
- * Endpoint documented with flask-swagger
+ * Rollbar integration
+ * Endpoint documented with flask-restplus
  * Test environment : unittest, nose, coverage
  * Travis integration for unit tests and coverage
  * CORS ready
@@ -28,7 +25,7 @@ This is boilerplate/skeleton code for a flask application meant for a RESTful AP
 
 ## Some goals/wanted features:
 
- * Create functionnal tests and run them separately from the unit tests (local postgres instance)
+ * Create functionnal tests and run them separately from the unit tests
 
 ## Installation
 
@@ -36,21 +33,6 @@ This project requires pip and virtualenv.
 ```bash
 make install
 ```
-
-### Prepare a local database
-
-Flask-Migrate documentation: https://flask-migrate.readthedocs.io/en/latest/
-
-Install Postgres, create a database and a user, assign the permissions to it, then:
-
- * `python manage.py db upgrade`
- * `python manage.py db current` Optional, will simply display the current migration
-
-If you modify your SQLAlchemy models, you can create a new migration by running:
-
- * `python manage.py db migrate`
-
-You can then repeat the steps above to apply the migration and check the status. Make sure to always commit new migration files.
 
 ## Run
 ```bash
@@ -68,10 +50,9 @@ make server
  * `APP_TOKEN: String` Application's token
  * `ROLLBAR_ACCESS_TOKEN: String` Rollbar's app access token
 
-
 ## Documentation
 
-Endpoints are documented using flask-swagger, each individuals endpoint must have swagger doc in YML format.
+Endpoints are documented using flask-restplus.
 The final json document can be reached at: http://localhost:5000/spec
 
 ## Tests
@@ -83,26 +64,16 @@ The final json document can be reached at: http://localhost:5000/spec
 make test-unit
 ```
 
-## Code style and Linting 
+## Code style and Linting
 
  * Linting is using pylint and flake8.
  * PEP-8 is followed and asserted using flake8 linter. There is a .flake8 file at the root of app, most IDEs/text editors can use it to determine the preferences.
- 
- To lint type 
+
+ To lint type
 ```bash
 make lint
 ```
 
-## Curl examples
-```bash
-curl http://localhost:5000/page/ --data '{"title":"a", "content":"content is a"}'
-curl http://localhost:5000/page/
-curl http://localhost:5000/page/a
-curl http://localhost:5000/page/a --data '{"title":"a", "content":"content is still about a"}' -X PUT
-curl http://localhost:5000/page/a -X DELETE
-
-```
-
 ### License
 
-ICFLIX 
+ICFLIX
