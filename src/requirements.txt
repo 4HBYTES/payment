@@ -7,3 +7,4 @@ Flask-Script==2.0.5
 Logentries==0.17
 pylint==1.6.4
 rollbar==0.13.8
+WTForms==2.1
