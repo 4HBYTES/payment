@@ -1,6 +1,5 @@
 from flask import request
 from logging import Formatter, StreamHandler, Filter
-from logentries import LogentriesHandler
 from uuid import uuid4
 import json
 import os
@@ -77,8 +76,3 @@ log_format = '''
 formatter = Formatter(log_format)
 handler = StreamHandler()
 handler.setFormatter(formatter)
-
-logentry_handler = handler
-if os.environ.get('LOGENTRIES_TOKEN') is not None:
-    logentry_handler = LogentriesHandler(os.environ.get('LOGENTRIES_TOKEN'))
-    logentry_handler.setFormatter(formatter)
