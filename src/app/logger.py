@@ -48,6 +48,7 @@ class ContextualFilter(Filter):
 
         return True
 
+
 log_format = '''
 {
     "timestamp": "%(asctime)s",
