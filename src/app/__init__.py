@@ -1,14 +1,13 @@
 import flask
 from flask_cors import CORS
 from flask_restplus import Api
-from logger import ContextualFilter, handler, logentry_handler
+from logger import ContextualFilter, handler
 
 app = flask.Flask(__name__)
 app.config.from_object('config')
 
 app.logger.addFilter(ContextualFilter())
 app.logger.addHandler(handler)
-app.logger.addHandler(logentry_handler)
 
 CORS(app, resources=r'/*', allow_headers='*')
 
