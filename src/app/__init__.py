@@ -45,6 +45,8 @@ def after_request(response):
 # We need to import those blueprints, AFTER the initialization
 # of both 'app', and 'db', this is why we are importing them
 # here, and ignoring the E402 error.
+
+
 from app.health.resources import ns as health_ns  # noqa: E402
 # TODO: Import your api namespaces here
 
