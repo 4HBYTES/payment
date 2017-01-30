@@ -1,15 +1,32 @@
-Master:
+# Billing/payment API
 
-[![Master Build Status](https://travis-ci.com/icflix-hub/flask-boilerplate.svg?token=nv4RRLczqJcogRo4WLpU&branch=master)](https://travis-ci.com/icflix-hub/flask-boilerplate)
-[![Master Coverage Status](https://coveralls.io/repos/github/icflix-hub/flask-boilerplate/badge.svg?branch=master&t=4rBKCh)](https://coveralls.io/github/icflix-hub/flask-boilerplate?branch=master)
+Notes for archlinux users, as it requires python 2:
 
-Develop:
+ * sudo pacman -S python2
+ * sudo pacman -S python2-pip
+ * sudo pip2.7 install virtualenv
+ * virtualenv -p /usr/bin/python2 env
+ * source env/bin/activate
 
-[![Develop Build Status](https://travis-ci.com/icflix-hub/ic-three.svg?token=nv4RRLczqJcogRo4WLpU&branch=develop)](https://travis-ci.com/icflix-hub/flask-boilerplate)
-[![Develop Coverage Status](https://coveralls.io/repos/github/icflix-hub/flask-boilerplate/badge.svg?branch=develop&t=4rBKCh)](https://coveralls.io/github/icflix-hub/flask-boilerplate?branch=develop)
+
+Curl example:
+
+curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-xxx", "quantity": 2}' -v
 
 
-This is boilerplate/skeleton code for a flask application meant for a RESTful API (with http and json)
+Current problem:
+
+"message": {
+    "debug_id": "dec152268ed55",
+    "information_link": "https://developer.paypal.com/webapps/developer/docs/api/#MALFORMED_REQUEST",
+    "message": "Incoming JSON request does not map to API request",
+    "name": "MALFORMED_REQUEST"
+}
+
+
+Next:
+
+Create the endpoint to execute the payment (PAYPAL_RETURN_URL)
 
 ## Current features:
 
@@ -73,7 +90,3 @@ make test-unit
 ```bash
 make lint
 ```
-
-### License
-
-ICFLIX

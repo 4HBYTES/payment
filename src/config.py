@@ -14,12 +14,19 @@ SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///'
 DATABASE_CONNECT_OPTIONS = {}
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-SECRET_KEY = os.environ.get('SECRET_KEY', '9oup6z5mdbw)8(f5$9ob@m&xha*(5ulqot&x*y1n$1^^9qo#d-')
+SECRET_KEY = os.environ.get('SECRET_KEY', '0(=pxgxx#k+qot@a1xc4$(c$h!-v_^^*uf_04*90bt4eqe7@pf')
 
-APP_NAME = os.environ.get('APP_NAME', 'flask-boilerplate')
+APP_NAME = os.environ.get('APP_NAME', 'payment-billing')
 
 ENVIRONMENT = os.environ.get('ENVIRONMENT', 'staging')
 
-APP_TOKEN = os.environ.get('APP_TOKEN', '4b6f204b-04e8-489a-9aec-7d204e4cec34')
+APP_TOKEN = os.environ.get('APP_TOKEN', '1c46c050-9058-4a7c-ae60-ce6bb02582b5')
 
 ROLLBAR_ACCESS_TOKEN = os.environ.get('ROLLBAR_ACCESS_TOKEN', 'TO_SET')
+
+PAYPAL_MODE = os.environ.get('PAYPAL_MODE', 'sandbox')
+PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID', 'TODO')
+PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET', 'TODO')
+PAYPAL_RETURN_URL = os.environ.get('PAYPAL_RETURN_URL', 'http://127.0.0.1:5000/payment/paypal/execute')
+PAYPAL_CANCEL_URL = os.environ.get('PAYPAL_CANCEL_URL', 'http://127.0.0.1:5000/')
+PAYPAL_TRANSACTION_DESCRIPTION = os.environ.get('PAYPAL_TRANSACTION_DESCRIPTION', 'Paypal description')

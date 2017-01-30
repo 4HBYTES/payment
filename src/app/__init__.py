@@ -1,7 +1,8 @@
 import flask
 from flask_cors import CORS
 from flask_restplus import Api
-from logger import ContextualFilter, handler
+from app.logger import ContextualFilter, handler
+import paypalrestsdk
 
 app = flask.Flask(__name__)
 app.config.from_object('config')
@@ -10,6 +11,12 @@ app.logger.addFilter(ContextualFilter())
 app.logger.addHandler(handler)
 
 CORS(app, resources=r'/*', allow_headers='*')
+
+paypalrestsdk.configure({
+    'mode': app.config['PAYPAL_MODE'],
+    'client_id': app.config['PAYPAL_CLIENT_ID'],
+    'client_secret': app.config['PAYPAL_CLIENT_SECRET']
+})
 
 
 @app.errorhandler(404)
@@ -47,17 +54,17 @@ def after_request(response):
 
 
 from app.health.resources import ns as health_ns  # noqa: E402
-# TODO: Import your api namespaces here
+from app.payment.resources import ns as payment_ns  # noqa: E402
 
 api = Api(
     app,
     version='1.0',
-    title='Flask Api Boileplate',
-    description='Example service',
+    title='Payment API',
+    description='Payment API description',
     doc=False
 )
 api.add_namespace(health_ns)
-# TODO: Add your namespaces to the api here
+api.add_namespace(payment_ns)
 
 if app.config['DEBUG'] and app.config['ENVIRONMENT'] != 'testing':
     import rollbar
