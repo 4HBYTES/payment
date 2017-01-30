@@ -9,19 +9,22 @@ Notes for archlinux users, as it requires python 2:
  * source env/bin/activate
 
 
-Curl example:
+CURL example:
 
-curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-xxx", "quantity": 2}' -v
+`curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-xxx", "quantity": 2}' -v`
 
-You can copy the content of the <a href="xxx"></a> and paste it in the browser. You will be redirected
-to the paypal store, to login, review your cart and click on 'pay'. At the end of the process, paypal
+You can copy the content of the HTML link in the response, and paste it in the browser. You will be redirected
+to the paypal store, to login, review your cart and click on 'Pay'. At the end of the process, paypal
 will call back our application on GET /payment/paypal/progress?paymentId=xxx&token=yyy&PayerID=zzz.
 You will be redirected on different pages with different parameters depending on the payment execution.
 
+Next step:
 
-Next:
+ * Test the damn thing with a dummy front end
+ * Implement express checkout ? Note sure the modal would be great, but __could__ get rid of those 302
+ * Implement BrainTree for credit card ?
+ * Persist the payment information in database (activity log kindof)
 
-Create the endpoint to execute the payment (PAYPAL_RETURN_URL)
 
 ## Current features:
 
