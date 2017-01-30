@@ -64,6 +64,14 @@ make server
  * `ENVIRONMENT: String` Application's environment (staging or production)
  * `APP_TOKEN: String` Application's token
  * `ROLLBAR_ACCESS_TOKEN: String` Rollbar's app access token
+ * `PAYPAL_MODE: String` Can be 'sandbox' or 'live'
+ * `PAYPAL_CLIENT_ID: String` Paypal account's client ID (from the dashboard)
+ * `PAYPAL_CLIENT_SECRET: String` Paypal account's client secret (from the dashboard)
+ * `PAYPAL_RETURN_URL: String` Callback for Paypal to execute the payment
+ * `PAYPAL_CANCEL_URL: String` URL the user will go to, if cancel the payment
+ * `PAYPAL_SUCCESS_URL: String` URL the user will be redirected to in case of successful payment
+ * `PAYPAL_FAILURE_URL: String` URL the user will be redirected to in case of failed payment
+ * `PAYPAL_TRANSACTION_DESCRIPTION: String` Transaction description (do not know where it will be displayed)
 
 ## Documentation
 
