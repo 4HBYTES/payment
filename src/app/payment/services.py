@@ -60,14 +60,8 @@ class PaypalService(object):
             }]
         })
 
-    def execute_payment(self):
+    def get_payment(self, payment_id):
         '''
-        TODO
+        Returns the payment object corresponding to the ID
         '''
-        pass
-
-    def get_details(self):
-        '''
-        TODO
-        '''
-        pass
+        return paypalrestsdk.Payment.find(payment_id)
