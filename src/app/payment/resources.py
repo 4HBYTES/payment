@@ -11,10 +11,6 @@ paypal_init_input = ns.model('Payment', {
     'quantity': fields.Integer(description='Quantity of product')
 })
 
-# TODO
-paypal_init_output = ns.model('Payment', {
-})
-
 
 @ns.route('/paypal/init')
 class PaypalPayment(Resource):
@@ -25,7 +21,6 @@ class PaypalPayment(Resource):
     @ns.doc('paypal_init')
     @ns.expect(paypal_init_input)
     @ns.response(500, 'shit is broken')
-    @ns.marshal_with(paypal_init_output)
     def post(self):
         '''
         TODO
@@ -56,8 +51,6 @@ class PaypalPayment(Resource):
         for link in payment.links:
             if link.method == "REDIRECT":
                 redirect_url = str(link.href)
-                # TODO: seems like the redirect is not working
-                # The curl is giving a 200
                 return redirect(redirect_url, code=302)
 
         abort(500, 'No redirect link found')

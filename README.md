@@ -14,11 +14,6 @@ Curl example:
 curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-xxx", "quantity": 2}' -v
 
 
-Current problem:
-
-The 302 redirect does not work, its returning a 200, don't know why
-
-
 Next:
 
 Create the endpoint to execute the payment (PAYPAL_RETURN_URL)
