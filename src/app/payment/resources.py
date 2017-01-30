@@ -8,14 +8,17 @@ from app import app
 
 ns = Namespace('payment', description='Payment module')
 
-paypal_init_input = ns.model('Payment', {
+paypal_init_input = ns.model('PaypalInit', {
     'product': fields.String(description='Product UUID'),
     'quantity': fields.Integer(description='Quantity of product')
 })
 
 # TODO
-paypal_progress_input = ns.model('Payment', {
-})
+paypal_progress_input = {
+    'paymentId': 'Payment ID provided by Paypal',
+    'token': 'Token provided by Paypal',
+    'PayerID': 'Payer ID provided by Paypal'
+}
 
 
 @ns.route('/paypal/init')
@@ -29,12 +32,12 @@ class PaypalCreatePayment(Resource):
 
     @ns.doc('paypal_init')
     @ns.expect(paypal_init_input)
+    @ns.response(400, 'Invalid input')
     @ns.response(500, 'shit is broken')
     def post(self):
         '''
-        Should be called by the client to be redirected to paypal
-        website, and handle the user account and payment pre-approval
-        from there.
+        Should be called by the client to be redirected to paypal website.
+        It will handle the user account and payment pre-approval.
         '''
 
         # Retrieves the payload as json, failure will trigger
@@ -44,7 +47,7 @@ class PaypalCreatePayment(Resource):
 
         form = InitForm(data=data)
         if not form.validate():
-            abort(401, form.errors)
+            abort(400, form.errors)
 
         product = self.product_service.get_product(
             form.data['product']
@@ -85,19 +88,19 @@ class PaypalCreatePayment(Resource):
 @ns.route('/paypal/progress')
 class PaypalExecutePayment(Resource):
     '''
-    Execute paypal's payment once it has been pre-approved by
-    system. It will redirect to a page in case of success.
+    Execute paypal pre-approved payment.
     '''
 
     paypal_service = PaypalService()
-    product_service = ProductService()
 
-    @ns.doc('paypal_progress')
-    @ns.expect(paypal_progress_input)
+    @ns.doc('paypal_progress', params=paypal_progress_input)
+    @ns.response(400, 'Invalid input')
     @ns.response(500, 'shit is broken')
     def get(self):
         '''
-        TODO
+        Callback only for Paypal.
+        It will execute the pre-approved payment and redirect the
+        user to a website based on the payment success or failure.
         '''
         form = PaypalProgressForm(request.args)
 
