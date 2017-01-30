@@ -1,4 +1,4 @@
-from flask import request, abort
+from flask import request, abort, redirect
 from flask_restplus import Resource, fields, Namespace
 
 from app.payment.forms import InitForm
@@ -56,6 +56,8 @@ class PaypalPayment(Resource):
         for link in payment.links:
             if link.method == "REDIRECT":
                 redirect_url = str(link.href)
-                return redirect_url, 302
+                # TODO: seems like the redirect is not working
+                # The curl is giving a 200
+                return redirect(redirect_url, code=302)
 
         abort(500, 'No redirect link found')

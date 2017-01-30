@@ -16,12 +16,7 @@ curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-x
 
 Current problem:
 
-"message": {
-    "debug_id": "dec152268ed55",
-    "information_link": "https://developer.paypal.com/webapps/developer/docs/api/#MALFORMED_REQUEST",
-    "message": "Incoming JSON request does not map to API request",
-    "name": "MALFORMED_REQUEST"
-}
+The 302 redirect does not work, its returning a 200, don't know why
 
 
 Next:

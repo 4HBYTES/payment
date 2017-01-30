@@ -20,7 +20,7 @@ class ProductService(object):
             'uuid': uuid,
             'price': 10,
             'currency': 'USD',
-            'name': 'Premium ticket'
+            'name': 'ticket'
         })
 
 
@@ -31,7 +31,6 @@ class PaypalService(object):
 
     def create_payment(self, product, quantity):
         '''
-        TODO: use a model, then to dict
         Sample here: https://github.com/paypal/PayPal-Python-SDK/blob/master/samples/payment/create_with_paypal.py
         '''
         return paypalrestsdk.Payment({
@@ -43,22 +42,22 @@ class PaypalService(object):
                 'return_url': app.config['PAYPAL_RETURN_URL'],
                 'cancel_url': app.config['PAYPAL_CANCEL_URL']
             },
-            'transactions': {
+            'transactions': [{
                 'item_list': {
                     'items': [{
                         'name': product.name,
-                        'sku': 'test',  # TODO: no idea what's sku
-                        'price': product.price,
+                        'sku': product.name,  # TODO: no idea what's sku
+                        'price': str(product.price),
                         'currency': product.currency,
                         'quantity': quantity
                     }]
                 },
                 'amount': {
-                    'total': product.price * quantity,
+                    'total': str(product.price * quantity),
                     'currency': product.currency
                 },
                 'description': app.config['PAYPAL_TRANSACTION_DESCRIPTION']
-            }
+            }]
         })
 
     def execute_payment(self):
