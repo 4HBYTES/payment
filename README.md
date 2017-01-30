@@ -13,6 +13,11 @@ Curl example:
 
 curl http://127.0.0.1:5000/payment/paypal/init --data '{"product": "my-uuid-v4-xxx", "quantity": 2}' -v
 
+You can copy the content of the <a href="xxx"></a> and paste it in the browser. You will be redirected
+to the paypal store, to login, review your cart and click on 'pay'. At the end of the process, paypal
+will call back our application on GET /payment/paypal/progress?paymentId=xxx&token=yyy&PayerID=zzz.
+You will be redirected on different pages with different parameters depending on the payment execution.
+
 
 Next:
 
