@@ -26,10 +26,10 @@ You will be redirected on different pages with different parameters depending on
 
 Next step:
 
- * Test the damn thing with a dummy front end
+ * Test the damn thing with a dummy front end: will probably need to change the /paypal/init to use form-data instead of json
  * Implement express checkout ? Note sure the modal would be great, but __could__ get rid of those 302
  * Implement BrainTree for credit card ?
- * Persist the payment information in database (activity log kindof)
+ * Have an interface to visualize the orders -> plug directly chart.io ???
 
 
 ## Current features:
