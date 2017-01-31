@@ -2,12 +2,18 @@
 
 Notes for archlinux users, as it requires python 2:
 
- * sudo pacman -S python2
- * sudo pacman -S python2-pip
- * sudo pip2.7 install virtualenv
- * virtualenv -p /usr/bin/python2 env
- * source env/bin/activate
+ * `sudo pacman -S python2`
+ * `sudo pacman -S python2-pip`
+ * `sudo pip2.7 install virtualenv`
+ * `virtualenv -p /usr/bin/python2 env`
+ * `source env/bin/activate`
 
+
+To prepare the database:
+
+ * `python manage.py shell`
+ * `from app import db`
+ * `db.create_all()`
 
 CURL example:
 

@@ -1,10 +1,59 @@
 '''
 TODO
 '''
-from app import app
-from app.payment.models import Product
+from app import app, db
+from app.payment.models import Product, Order
 import paypalrestsdk
 import requests
+from datetime import datetime
+
+
+class OrderService(object):
+    '''
+    Database wrapper for the orders
+    '''
+
+    def _create_order(self, paypal_payment_id, user_id, product_id, quantity, status):
+        '''
+        Private method to create an order
+        '''
+        order = Order({
+            'paypal_payment_id': paypal_payment_id,
+            'user_id': user_id,
+            'product_id': product_id,
+            'quantity': quantity,
+            'created_at': datetime.now(),
+            'status': status
+        })
+
+        db.session.add(order)
+        db.session.commit()
+
+    def create_init_order(self, paypal_payment_id, user_id, product_id, quantity):
+        '''
+        Create an order with the 'init' status
+        '''
+        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'init')
+
+    def create_failed_order(self, paypal_payment_id, user_id, product_id, quantity):
+        '''
+        Create an order with the 'failed' status
+        '''
+        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'fail')
+
+    def create_success_order(self, paypal_payment_id, user_id, product_id, quantity):
+        '''
+        Create an order with the 'success' status
+        '''
+        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'success')
+
+    def get_order_by_payment_id(self, payment_id):
+        '''
+        Returns an order by paypal_payment_id
+        '''
+        return Order.query\
+            .filter_by(paypal_payment_id=payment_id)\
+            .first()
 
 
 class ProductService(object):

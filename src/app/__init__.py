@@ -1,6 +1,7 @@
 import flask
 from flask_cors import CORS
 from flask_restplus import Api
+from flask_sqlalchemy import SQLAlchemy
 from app.logger import ContextualFilter, handler
 import paypalrestsdk
 
@@ -9,6 +10,8 @@ app.config.from_object('config')
 
 app.logger.addFilter(ContextualFilter())
 app.logger.addHandler(handler)
+
+db = SQLAlchemy(app)
 
 CORS(app, resources=r'/*', allow_headers='*')
 

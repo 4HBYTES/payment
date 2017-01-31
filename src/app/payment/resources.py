@@ -2,7 +2,7 @@ from flask import request, abort, redirect
 from flask_restplus import Resource, fields, Namespace
 
 from app.payment.forms import InitForm, PaypalProgressForm
-from app.payment.services import PaypalService, ProductService
+from app.payment.services import PaypalService, ProductService, OrderService
 from app.logentries_logger import logger
 from app import app
 
@@ -30,6 +30,7 @@ class PaypalCreatePayment(Resource):
 
     paypal_service = PaypalService()
     product_service = ProductService()
+    order_service = OrderService()
 
     @ns.doc('paypal_init')
     @ns.expect(paypal_init_input)
@@ -68,6 +69,14 @@ class PaypalCreatePayment(Resource):
             })
             abort(500, payment.error)
 
+        # Save the order in database
+        self.order_service.create_init_order(
+            payment.id,
+            form.data['user_id'],
+            form.data['product'],
+            form.data['quantity']
+        )
+
         for link in payment.links:
             if link.method == "REDIRECT":
                 redirect_url = str(link.href)
@@ -93,9 +102,11 @@ class PaypalExecutePayment(Resource):
     '''
 
     paypal_service = PaypalService()
+    order_service = OrderService()
 
     @ns.doc('paypal_progress', params=paypal_progress_input)
     @ns.response(400, 'Invalid input')
+    @ns.response(404, 'Cannot find the order')
     @ns.response(500, 'shit is broken')
     def get(self):
         '''
@@ -111,19 +122,40 @@ class PaypalExecutePayment(Resource):
                 'method': 'paypal',
                 'context': form.errors
             })
-            abort(401, form.errors)
+            abort(400, form.errors)
 
         payment = self.paypal_service.get_payment(
             form.data['paymentId']
         )
 
+        order = self.order_service.get_order_by_payment_id(
+            form.data['paymentId']
+        )
+
+        if order is None:
+            abort(404, {'error': 'Could not find the original order'})
+
         if not payment.execute({"payer_id": form.data['PayerID']}):
+            self.order_service.create_failed_order(
+                order.paypal_payment_id,
+                order.user_id,
+                order.product_id,
+                order.quantity
+            )
+
             logger.error({
                 'message': 'Payment failed',
                 'method': 'paypal',
                 'context': payment.error
             })
             return redirect(app.config['PAYPAL_FAILURE_URL'], code=302)
+
+        self.order_service.create_success_order(
+            order.paypal_payment_id,
+            order.user_id,
+            order.product_id,
+            order.quantity
+        )
 
         logger.info({
             'message': 'Payment successful',
