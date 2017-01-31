@@ -2,7 +2,7 @@ from flask import request, abort, redirect
 from flask_restplus import Resource, fields, Namespace
 
 from app.payment.forms import InitForm, PaypalProgressForm
-from app.payment.services import PaypalService, ProductService, OrderService
+from app.payment.services import PaypalService, CmsService, OrderService
 from app.logentries_logger import logger
 from app import app
 
@@ -29,7 +29,7 @@ class PaypalCreatePayment(Resource):
     '''
 
     paypal_service = PaypalService()
-    product_service = ProductService()
+    cms_service = CmsService()
     order_service = OrderService()
 
     @ns.doc('paypal_init')
@@ -51,7 +51,7 @@ class PaypalCreatePayment(Resource):
         if not form.validate():
             abort(400, form.errors)
 
-        product = self.product_service.get_product(
+        product = self.cms_service.get_product(
             form.data['product']
         )
 
@@ -103,6 +103,7 @@ class PaypalExecutePayment(Resource):
 
     paypal_service = PaypalService()
     order_service = OrderService()
+    cms_service = CmsService()
 
     @ns.doc('paypal_progress', params=paypal_progress_input)
     @ns.response(400, 'Invalid input')
@@ -163,7 +164,7 @@ class PaypalExecutePayment(Resource):
             'context': payment.id
         })
 
-        # TODO: From here probably send the tickets by email or
-        # any kind of notifications to the user.
+        # Contacting the CMS to create the tickets
+        self.cms_service.create_tickets(order)
 
         return redirect(app.config['PAYPAL_SUCCESS_URL'], code=302)

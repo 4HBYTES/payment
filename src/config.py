@@ -37,3 +37,4 @@ PAYPAL_FAILURE_URL = os.environ.get('PAYPAL_FAILURE_URL', 'https://baidu.com?suc
 PAYPAL_TRANSACTION_DESCRIPTION = os.environ.get('PAYPAL_TRANSACTION_DESCRIPTION', 'Paypal description')
 
 CMS_API = os.environ.get('CMS_API', 'http://127.0.0.1:8000')
+CMS_APP_TOKEN = os.environ.get('CMS_APP_TOKEN', '3d008cb7-15ce-4e30-b5d1-b626064797fc')

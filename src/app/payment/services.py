@@ -6,6 +6,7 @@ from app.payment.models import Product, Order
 import paypalrestsdk
 import requests
 from datetime import datetime
+import json
 
 
 class OrderService(object):
@@ -56,7 +57,7 @@ class OrderService(object):
             .first()
 
 
-class ProductService(object):
+class CmsService(object):
     '''
     HTTP wrapper to the CMS
     '''
@@ -71,6 +72,21 @@ class ProductService(object):
         )
         response = requests.get(url)
         return Product(response.json())
+
+    def create_tickets(self, order):
+        '''
+        Create tickets
+        '''
+        data = {
+            'token': app.config['CMS_APP_TOKEN'],
+            'quantity': order.quantity,
+            'product_id': order.product_id,
+            'user_id': order.user_id
+        }
+        url = '{}/ticket/create'.format(
+            app.config['CMS_API']
+        )
+        requests.post(url, json=data)
 
 
 class PaypalService(object):
