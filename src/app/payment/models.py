@@ -1,15 +1,15 @@
 '''
-TODO
+Models
 '''
 
 
 class Product(object):
     '''
-    TODO
+    Product definition from the CMS
     '''
 
     def __init__(self, data):
-        self.uuid = data.get('uuid', '')
+        self.id = data.get('id', '')
         self.name = data.get('name', '')
-        self.price = data.get('price', 1)
+        self.price = data.get('price', 1.0)
         self.currency = data.get('currency', 'USD')

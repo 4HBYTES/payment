@@ -32,3 +32,5 @@ PAYPAL_CANCEL_URL = os.environ.get('PAYPAL_CANCEL_URL', 'https://baidu.com')
 PAYPAL_SUCCESS_URL = os.environ.get('PAYPAL_SUCCESS_URL', 'https://baidu.com?sucess=true')
 PAYPAL_FAILURE_URL = os.environ.get('PAYPAL_FAILURE_URL', 'https://baidu.com?success=false')
 PAYPAL_TRANSACTION_DESCRIPTION = os.environ.get('PAYPAL_TRANSACTION_DESCRIPTION', 'Paypal description')
+
+CMS_API = os.environ.get('CMS_API', 'http://127.0.0.1:8000')

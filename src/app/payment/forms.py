@@ -11,6 +11,7 @@ class InitForm(Form):
     # TODO: Make sure it's >1 and <99 (for instance)
     quantity = IntegerField('quantity', [validators.required()])
     product = StringField('product', [validators.required()])
+    user_id = StringField('user_id', [validators.required()])
 
 
 class PaypalProgressForm(Form):

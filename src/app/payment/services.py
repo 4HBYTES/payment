@@ -4,24 +4,24 @@ TODO
 from app import app
 from app.payment.models import Product
 import paypalrestsdk
+import requests
 
 
 class ProductService(object):
     '''
-    TODO: This will probably be calling the CMS for
-    product definition: retrieve price, etc
+    HTTP wrapper to the CMS
     '''
 
     def get_product(self, uuid):
         '''
-        TODO: make actual call
+        Returns a product by uuid
         '''
-        return Product({
-            'uuid': uuid,
-            'price': 10,
-            'currency': 'USD',
-            'name': 'ticket'
-        })
+        url = '{}/products/{}'.format(
+            app.config['CMS_API'],
+            uuid
+        )
+        response = requests.get(url)
+        return Product(response.json())
 
 
 class PaypalService(object):
@@ -46,7 +46,7 @@ class PaypalService(object):
                 'item_list': {
                     'items': [{
                         'name': product.name,
-                        'sku': product.name,  # TODO: no idea what's sku
+                        'sku': product.id,
                         'price': str(product.price),
                         'currency': product.currency,
                         'quantity': quantity

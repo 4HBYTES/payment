@@ -10,7 +10,8 @@ ns = Namespace('payment', description='Payment module')
 
 paypal_init_input = ns.model('PaypalInit', {
     'product': fields.String(description='Product UUID'),
-    'quantity': fields.Integer(description='Quantity of product')
+    'quantity': fields.Integer(description='Quantity of product'),
+    'user_id': fields.String(description='ID of the user making the purchase')
 })
 
 # TODO

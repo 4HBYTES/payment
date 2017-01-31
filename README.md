@@ -72,6 +72,7 @@ make server
  * `PAYPAL_SUCCESS_URL: String` URL the user will be redirected to in case of successful payment
  * `PAYPAL_FAILURE_URL: String` URL the user will be redirected to in case of failed payment
  * `PAYPAL_TRANSACTION_DESCRIPTION: String` Transaction description (do not know where it will be displayed)
+ * `CMS_API: String` Url to the CMS API
 
 ## Documentation
 
