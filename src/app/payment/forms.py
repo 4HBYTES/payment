@@ -1,16 +1,24 @@
 '''
 TODO
 '''
-from wtforms import Form, StringField, IntegerField, validators
+from wtforms import Form, StringField, IntegerField, validators, FieldList, FormField
 
 
-class InitForm(Form):
+class InitInnerForm(Form):
     '''
     TODO
     '''
     # TODO: Make sure it's >1 and <99 (for instance)
     quantity = IntegerField('quantity', [validators.required()])
     product = StringField('product', [validators.required()])
+
+
+class InitForm(Form):
+    products = FieldList(
+        FormField(InitInnerForm),
+        [validators.required()],
+        min_entries=1
+    )
     user_id = StringField('user_id', [validators.required()])
 
 

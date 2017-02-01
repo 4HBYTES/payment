@@ -8,9 +8,13 @@ from app import app
 
 ns = Namespace('payment', description='Payment module')
 
-paypal_init_input = ns.model('PaypalInit', {
+paypal_init_inner_input = ns.model('PaypalInnerInit', {
     'product': fields.String(description='Product UUID'),
-    'quantity': fields.Integer(description='Quantity of product'),
+    'quantity': fields.Integer(description='Quantity of product')
+})
+
+paypal_init_input = ns.model('PaypalInit', {
+    'products': fields.List(fields.Nested(paypal_init_inner_input)),
     'user_id': fields.String(description='ID of the user making the purchase')
 })
 
@@ -51,16 +55,17 @@ class PaypalCreatePayment(Resource):
         if not form.validate():
             abort(400, form.errors)
 
-        product = self.cms_service.get_product(
-            form.data['product']
-        )
-
-        # TODO: 404 cannot find the product
+        products = []
+        for product in form.data['products']:
+            cms_product = self.cms_service.get_product(
+                product['product']
+            )
+            products.append({'product': cms_product, 'quantity': product['quantity']})
 
         payment = self.paypal_service.create_payment(
-            product,
-            form.data['quantity']
+            products
         )
+
         if not payment.create():
             logger.error({
                 'message': 'Could not create payment',
@@ -73,8 +78,7 @@ class PaypalCreatePayment(Resource):
         self.order_service.create_init_order(
             payment.id,
             form.data['user_id'],
-            form.data['product'],
-            form.data['quantity']
+            products
         )
 
         for link in payment.links:
@@ -140,8 +144,7 @@ class PaypalExecutePayment(Resource):
             self.order_service.create_failed_order(
                 order.paypal_payment_id,
                 order.user_id,
-                order.product_id,
-                order.quantity
+                order.id,
             )
 
             logger.error({
@@ -154,8 +157,7 @@ class PaypalExecutePayment(Resource):
         self.order_service.create_success_order(
             order.paypal_payment_id,
             order.user_id,
-            order.product_id,
-            order.quantity
+            order.id,
         )
 
         logger.info({

@@ -20,17 +20,31 @@ class Product(object):
 
 class Order(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    parent_id = db.Column(db.String(100))
     paypal_payment_id = db.Column(db.String(100))
     user_id = db.Column(db.String(100))
-    product_id = db.Column(db.String(100))
-    quantity = db.Column(db.Float())
     created_at = db.Column(db.DateTime())
     status = db.Column(db.String(100))
+    product_orders = db.relationship(
+        'ProductOrder',
+        backref='order',
+        lazy='dynamic'
+    )
 
     def __init__(self, data):
         self.paypal_payment_id = data['paypal_payment_id']
         self.user_id = data['user_id']
-        self.product_id = data['product_id']
-        self.quantity = data['quantity']
         self.created_at = data['created_at']
         self.status = data['status']
+
+
+class ProductOrder(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    product_id = db.Column(db.String(100))
+    quantity = db.Column(db.Float())
+    order_id = db.Column(UUID(as_uuid=True), db.ForeignKey('order.id'))
+
+    def __init__(self, data):
+        self.product_id = data['product_id']
+        self.quantity = data['quantity']
+        self.order_id = data['order_id']

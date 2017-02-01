@@ -2,11 +2,10 @@
 TODO
 '''
 from app import app, db
-from app.payment.models import Product, Order
+from app.payment.models import Product, Order, ProductOrder
 import paypalrestsdk
 import requests
 from datetime import datetime
-import json
 
 
 class OrderService(object):
@@ -14,15 +13,13 @@ class OrderService(object):
     Database wrapper for the orders
     '''
 
-    def _create_order(self, paypal_payment_id, user_id, product_id, quantity, status):
+    def _create_order(self, paypal_payment_id, user_id, products, order_id, status):
         '''
         Private method to create an order
         '''
         order = Order({
             'paypal_payment_id': paypal_payment_id,
             'user_id': user_id,
-            'product_id': product_id,
-            'quantity': quantity,
             'created_at': datetime.now(),
             'status': status
         })
@@ -30,23 +27,43 @@ class OrderService(object):
         db.session.add(order)
         db.session.commit()
 
-    def create_init_order(self, paypal_payment_id, user_id, product_id, quantity):
+        if status != 'init':
+            order.parent_id = order_id
+            db.session.add(order)
+            db.session.commit()
+            return
+
+        order.parent_id = order.id
+
+        db.session.add(order)
+
+        for item in products:
+            product_order = ProductOrder({
+                'product_id': item['product'].id,
+                'quantity': item['quantity'],
+                'order_id': order.id
+            })
+            db.session.add(product_order)
+
+        db.session.commit()
+
+    def create_init_order(self, paypal_payment_id, user_id, products):
         '''
         Create an order with the 'init' status
         '''
-        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'init')
+        self._create_order(paypal_payment_id, user_id, products, None, 'init')
 
-    def create_failed_order(self, paypal_payment_id, user_id, product_id, quantity):
+    def create_failed_order(self, paypal_payment_id, user_id, order_id):
         '''
         Create an order with the 'failed' status
         '''
-        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'fail')
+        self._create_order(paypal_payment_id, user_id, None, order_id, 'fail')
 
-    def create_success_order(self, paypal_payment_id, user_id, product_id, quantity):
+    def create_success_order(self, paypal_payment_id, user_id, order_id):
         '''
         Create an order with the 'success' status
         '''
-        self._create_order(paypal_payment_id, user_id, product_id, quantity, 'success')
+        self._create_order(paypal_payment_id, user_id, None, order_id, 'success')
 
     def get_order_by_payment_id(self, payment_id):
         '''
@@ -77,10 +94,16 @@ class CmsService(object):
         '''
         Create tickets
         '''
+        products = []
+        for item in order.product_orders:
+            products.append({
+                'product_id': item.product_id,
+                'quantity': item.quantity
+            })
+
         data = {
             'token': app.config['CMS_APP_TOKEN'],
-            'quantity': order.quantity,
-            'product_id': order.product_id,
+            'products': products,
             'user_id': order.user_id
         }
         url = '{}/ticket/create'.format(
@@ -94,10 +117,27 @@ class PaypalService(object):
     TODO
     '''
 
-    def create_payment(self, product, quantity):
+    def create_payment(self, products):
         '''
         Sample here: https://github.com/paypal/PayPal-Python-SDK/blob/master/samples/payment/create_with_paypal.py
         '''
+        items = []
+        total = 0
+        currency = products[0]['product'].currency
+
+        for item in products:
+            product = item['product']
+            quantity = int(item['quantity'])
+
+            items.append({
+                'name': product.name,
+                'sku': product.id,
+                'price': str(product.price),
+                'currency': product.currency,
+                'quantity': quantity
+            })
+            total += product.price * quantity
+
         return paypalrestsdk.Payment({
             'intent': 'sale',
             'payer': {
@@ -109,17 +149,11 @@ class PaypalService(object):
             },
             'transactions': [{
                 'item_list': {
-                    'items': [{
-                        'name': product.name,
-                        'sku': product.id,
-                        'price': str(product.price),
-                        'currency': product.currency,
-                        'quantity': quantity
-                    }]
+                    'items': items
                 },
                 'amount': {
-                    'total': str(product.price * quantity),
-                    'currency': product.currency
+                    'total': str(total),
+                    'currency': currency
                 },
                 'description': app.config['PAYPAL_TRANSACTION_DESCRIPTION']
             }]
