@@ -13,7 +13,8 @@ app.logger.addHandler(handler)
 
 db = SQLAlchemy(app)
 
-CORS(app, resources=r'/*', allow_headers='*')
+# Seems like it is conflicting with the front end server configuration
+#CORS(app, resources=r'/*', allow_headers='*')
 
 paypalrestsdk.configure({
     'mode': app.config['PAYPAL_MODE'],
